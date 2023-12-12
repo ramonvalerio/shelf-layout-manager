@@ -1,5 +1,5 @@
-﻿using ShelfLayoutManager.Core.Domain.Cabinets;
-using ShelfLayoutManager.Core.Domain.Lanes;
+﻿using ShelfLayoutManager.Core.Domain.Lanes;
+using ShelfLayoutManager.Core.ValueObjects;
 
 namespace ShelfLayoutManager.Core.Domain.Rows
 {

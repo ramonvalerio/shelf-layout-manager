@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace ShelfLayoutManager.Core.Domain.Cabinets
+namespace ShelfLayoutManager.Core.ValueObjects
 {
     public class Size
     {

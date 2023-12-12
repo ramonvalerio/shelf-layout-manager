@@ -1,4 +1,4 @@
-﻿namespace ShelfLayoutManager.Core.Domain.ValueObjects
+﻿namespace ShelfLayoutManager.Core.ValueObjects
 {
     public class Position
     {
