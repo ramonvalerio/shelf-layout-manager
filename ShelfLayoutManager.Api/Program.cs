@@ -23,6 +23,13 @@ builder.Services.AddScoped<ICabinetRepository, CabinetRepository>();
 
 var app = builder.Build();
 
+// Verifica e aplica migrações pendentes, criando o banco de dados se necessário
+using (var scope = app.Services.CreateScope())
+{
+    var dataContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+    dataContext.Database.Migrate();
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

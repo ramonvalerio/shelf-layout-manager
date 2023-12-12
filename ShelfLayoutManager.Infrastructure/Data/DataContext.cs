@@ -7,7 +7,6 @@ using ShelfLayoutManager.Core.Domain.Lanes;
 using ShelfLayoutManager.Core.Domain.Rows;
 using ShelfLayoutManager.Infrastructure.Identity;
 using ShelfLayoutManager.Infrastructure.Logging;
-using System.Reflection.Emit;
 
 namespace ShelfLayoutManager.Infrastructure.Data
 {
