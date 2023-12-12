@@ -3,5 +3,7 @@
     public interface ILaneRepository
     {
         Task<List<Lane>> GetAll();
+
+        Task<Lane> GetById(int id);
     }
 }

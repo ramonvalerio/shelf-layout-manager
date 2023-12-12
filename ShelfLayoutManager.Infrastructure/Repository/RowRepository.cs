@@ -17,5 +17,10 @@ namespace ShelfLayoutManager.Infrastructure.Repository
         {
             return await _context.Rows.ToListAsync();
         }
+
+        public async Task<Row> GetById(int id)
+        {
+            return await _context.Rows.SingleOrDefaultAsync(x => x.Number == id);
+        }
     }
 }

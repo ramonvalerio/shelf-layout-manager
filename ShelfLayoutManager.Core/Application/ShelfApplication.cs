@@ -19,19 +19,30 @@ namespace ShelfLayoutManager.Core.Application
             _laneRepository = laneRepository;
         }
 
+        public async Task<Cabinet> GetCabinetByNumber(int number)
+        {
+            return await _cabinetRepository.GetById(number);
+        }
+
         public async Task<List<Cabinet>> GetCabinets()
         {
-            return await _cabinetRepository.GetAll();
-        }
+            var cabinets = await _cabinetRepository.GetAll();
+            var rows = await _rowRepository.GetAll();
+            var lanes = await _laneRepository.GetAll();
 
-        public async Task<List<Row>> GetRows()
-        {
-            return await _rowRepository.GetAll();
-        }
+            foreach (var cabinet in cabinets)
+            {
+                var cabinetRows = rows.Where(x => x.Number == cabinet.Number);
+                cabinet.Rows.AddRange(cabinetRows);
 
-        public async Task<List<Lane>> GetLanes()
-        {
-            return await _laneRepository.GetAll();
+                foreach (var row in cabinet.Rows)
+                {
+                    var rowLanes = row.Lanes.Where(x => x.Number == x.Number);
+                    row.Lanes.AddRange(rowLanes);
+                }
+            }
+
+            return cabinets;
         }
     }
 }

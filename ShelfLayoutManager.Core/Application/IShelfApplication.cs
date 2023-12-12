@@ -1,6 +1,4 @@
 ﻿using ShelfLayoutManager.Core.Domain.Cabinets;
-using ShelfLayoutManager.Core.Domain.Lanes;
-using ShelfLayoutManager.Core.Domain.Rows;
 
 namespace ShelfLayoutManager.Core.Application
 {
@@ -8,8 +6,6 @@ namespace ShelfLayoutManager.Core.Application
     {
         Task<List<Cabinet>> GetCabinets();
 
-        Task<List<Row>> GetRows();
-
-        Task<List<Lane>> GetLanes();
+        Task<Cabinet> GetCabinetByNumber(int number);
     }
 }
