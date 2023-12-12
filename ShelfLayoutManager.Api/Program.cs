@@ -1,8 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using ShelfLayoutManager.Core.Application;
 using ShelfLayoutManager.Core.Domain.Cabinets;
+using ShelfLayoutManager.Core.Domain.Lanes;
+using ShelfLayoutManager.Core.Domain.Rows;
 using ShelfLayoutManager.Core.Repository;
 using ShelfLayoutManager.Infrastructure.Data;
+using ShelfLayoutManager.Infrastructure.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +23,8 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 builder.Services.AddScoped<IShelfApplication, ShelfApplication>();
 builder.Services.AddScoped<ICabinetRepository, CabinetRepository>();
+builder.Services.AddScoped<IRowRepository, RowRepository>();
+builder.Services.AddScoped<ILaneRepository, LaneRepository>();
 
 var app = builder.Build();
 
