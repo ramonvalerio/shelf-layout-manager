@@ -1,0 +1,26 @@
+﻿version: '3'
+services:
+  api:
+    image: shelf-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    build:
+      context: ./
+      dockerfile: ./dockerfiles/api/Dockerfile
+    ports:
+      - "3500:80"
+    depends_on:
+      - sqlserver
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Test@123
+      - MSSQL_PID=Express
+    ports:
+      - "1433:1433"
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -U sa -P 'Test@123' -Q 'SELECT 1'
+      interval: 10s
+      timeout: 5s
+      retries: 5
