@@ -17,6 +17,7 @@ namespace ShelfLayoutManager.Infrastructure.Data
             if (!Database.GetService<IRelationalDatabaseCreator>().Exists())
             {
                 Database.EnsureCreated();
+                Database.Migrate();
             }
         }
 
