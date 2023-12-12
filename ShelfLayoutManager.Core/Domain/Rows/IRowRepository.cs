@@ -1,9 +1,9 @@
-﻿namespace ShelfLayoutManager.Core.Domain.Rows
-{
-    public interface IRowRepository
-    {
-        Task<List<Row>> GetAll();
+﻿using ShelfLayoutManager.Core.Domain.Cabinets;
 
-        Task<Row> GetById(int id);
+namespace ShelfLayoutManager.Core.Domain.Rows
+{
+    public interface IRowRepository : IReadBaseRepository<Row>
+    {
+
     }
 }

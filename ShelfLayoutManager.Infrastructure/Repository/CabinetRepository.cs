@@ -1,26 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ShelfLayoutManager.Core.Domain.Cabinets;
+﻿using ShelfLayoutManager.Core.Domain.Cabinets;
 using ShelfLayoutManager.Infrastructure.Data;
+using ShelfLayoutManager.Infrastructure.Repository;
 
 namespace ShelfLayoutManager.Core.Repository
 {
-    public class CabinetRepository : ICabinetRepository
+    public class CabinetRepository : ReadBaseRepository<Cabinet>, ICabinetRepository
     {
         private readonly DataContext _context;
 
-        public CabinetRepository(DataContext context)
+        public CabinetRepository(DataContext context) : base(context)
         {
             _context = context;
-        }
-
-        public async Task<List<Cabinet>> GetAll()
-        {
-            return await _context.Cabinets.ToListAsync();
-        }
-
-        public async Task<Cabinet> GetById(int id)
-        {
-            return await _context.Cabinets.SingleOrDefaultAsync(x => x.Number == id);
         }
     }
 }

@@ -1,9 +1,7 @@
 ﻿namespace ShelfLayoutManager.Core.Domain.Lanes
 {
-    public interface ILaneRepository
+    public interface ILaneRepository : IReadBaseRepository<Lane>
     {
-        Task<List<Lane>> GetAll();
 
-        Task<Lane> GetById(int id);
     }
 }

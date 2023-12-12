@@ -1,8 +1,7 @@
 ﻿namespace ShelfLayoutManager.Core.Domain.Cabinets
 {
-    public interface ICabinetRepository
+    public interface ICabinetRepository : IReadBaseRepository<Cabinet>
     {
-        Task<List<Cabinet>> GetAll();
-        Task<Cabinet> GetById(int id);
+        
     }
 }

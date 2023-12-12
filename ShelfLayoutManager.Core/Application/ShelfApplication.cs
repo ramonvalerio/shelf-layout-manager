@@ -21,14 +21,14 @@ namespace ShelfLayoutManager.Core.Application
 
         public async Task<Cabinet> GetCabinetByNumber(int number)
         {
-            return await _cabinetRepository.GetById(number);
+            return await _cabinetRepository.GetByIdAsync(number);
         }
 
         public async Task<List<Cabinet>> GetCabinets()
         {
-            var cabinets = await _cabinetRepository.GetAll();
-            var rows = await _rowRepository.GetAll();
-            var lanes = await _laneRepository.GetAll();
+            var cabinets = await _cabinetRepository.GetAllAsync();
+            var rows = await _rowRepository.GetAllAsync();
+            var lanes = await _laneRepository.GetAllAsync();
 
             foreach (var cabinet in cabinets)
             {

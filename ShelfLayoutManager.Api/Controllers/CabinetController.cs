@@ -17,28 +17,28 @@ namespace ShelfLayoutManager.Api.Controllers
             _application = application;
         }
 
-        [HttpGet(Name = "Shelf")]
+        [HttpGet(Name = "Cabinet")]
         public async Task<ActionResult> Get()
         {
             var result = _application.GetCabinets();
-
             return Ok(new { result });
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult> Get(int id)
         {
-            return NotFound();
+            var result = _application.GetCabinetByNumber(id);
+            return Ok(result);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromBody] Cabinet shelf)
+        public async Task<ActionResult> Create([FromBody] Cabinet cabinet)
         {
             return NotFound();
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int id, [FromBody] Cabinet shelf)
+        public async Task<ActionResult> Update(int id, [FromBody] Cabinet cabinet)
         {
             return NotFound();
         }
