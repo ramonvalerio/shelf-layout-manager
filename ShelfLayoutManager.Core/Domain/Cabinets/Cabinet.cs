@@ -10,6 +10,11 @@ namespace ShelfLayoutManager.Core.Domain.Cabinets
         public Position Position { get; private set; }
         public Size Size { get; private set; }
 
+        public Cabinet()
+        {
+                
+        }
+
         public Cabinet(int number, List<Row> rows, Position position, Size size)
         {
             Number = number;

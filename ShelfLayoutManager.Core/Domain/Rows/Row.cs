@@ -10,6 +10,11 @@ namespace ShelfLayoutManager.Core.Domain.Rows
         public float PositionZ { get; set; }
         public Size Size { get; set; }
 
+        public Row()
+        {
+
+        }
+
         public Row(int number, float position, float height, List<Lane> lanes)
         {
             Number = number;
