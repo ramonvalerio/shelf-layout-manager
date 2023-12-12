@@ -13,10 +13,12 @@ namespace ShelfLayoutManager.Api.Controllers
     public class ShelfController : ControllerBase
     {
         private readonly ILogger<ShelfController> _logger;
+        private readonly IShelfApplication _application;
 
-        public ShelfController(ILogger<ShelfController> logger)
+        public ShelfController(ILogger<ShelfController> logger, IShelfApplication application)
         {
             _logger = logger;
+            _application = application;
         }
 
         [HttpGet(Name = "Shelf")]
