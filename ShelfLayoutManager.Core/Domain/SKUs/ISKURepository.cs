@@ -1,10 +1,10 @@
-﻿namespace ShelfLayoutManager.Core.Domain.SKUs
+﻿namespace ShelfLayoutManager.Core.Domain.Skus
 {
-    public interface ISKURepository : IReadBaseRepository<SKU>
+    public interface ISkuRepository : IReadBaseRepository<Sku>
     {
-        Task<SKU> Create(SKU sku);
+        Task<Sku> Create(Sku sku);
 
-        Task<SKU> Update(SKU sku);
+        Task<Sku> Update(Sku sku);
 
         Task Delete(string janCode);
     }

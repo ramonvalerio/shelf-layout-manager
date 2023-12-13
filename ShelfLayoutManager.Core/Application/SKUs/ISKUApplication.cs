@@ -1,16 +1,16 @@
 ﻿
-using ShelfLayoutManager.Core.Domain.SKUs;
+using ShelfLayoutManager.Core.Domain.Skus;
 
-namespace ShelfLayoutManager.Core.Application.SKUs
+namespace ShelfLayoutManager.Core.Application.Skus
 {
-    public interface ISKUApplication
+    public interface ISkuApplication
     {
-        Task<List<SKU>> GetSAllSku();
-        Task<SKU> GetSkuByJanCode(string janCode);
+        Task<List<Sku>> GetSAllSku();
+        Task<Sku> GetSkuByJanCode(string janCode);
 
-        Task<SKU> CreateSku(SKU sku);
+        Task<Sku> CreateSku(Sku sku);
 
-        Task<SKU> UpdateSku(string janCode, SKU sku);
+        Task<Sku> UpdateSku(string janCode, Sku sku);
 
         Task DeleteSku(string janCode);
     }

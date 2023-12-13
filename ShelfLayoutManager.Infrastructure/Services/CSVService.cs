@@ -1,22 +1,22 @@
 ﻿using CsvHelper;
-using ShelfLayoutManager.Core.Domain.SKUs;
+using ShelfLayoutManager.Core.Domain.Skus;
 using System.Globalization;
 
 namespace ShelfLayoutManager.Infrastructure.Services
 {
     public class CSVService
     {
-        public List<SKU> ParseSkuCsv(string filePath)
+        public List<Sku> ParseSkuCsv(string filePath)
         {
             using (var reader = new StreamReader(filePath))
             using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
             {
-                var records = new List<SKU>();
+                var records = new List<Sku>();
                 csv.Read();
                 csv.ReadHeader();
                 while (csv.Read())
                 {
-                    var record = new SKU
+                    var record = new Sku
                     {
                         JanCode = csv.GetField("JanCode"),
                         Name = csv.GetField("Name"),

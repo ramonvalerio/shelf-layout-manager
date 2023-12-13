@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using ShelfLayoutManager.Core.Domain.Cabinets;
 using ShelfLayoutManager.Core.Domain.Lanes;
 using ShelfLayoutManager.Core.Domain.Rows;
-using ShelfLayoutManager.Core.Domain.SKUs;
+using ShelfLayoutManager.Core.Domain.Skus;
 using ShelfLayoutManager.Infrastructure.Identity;
 using ShelfLayoutManager.Infrastructure.Logging;
 using ShelfLayoutManager.Infrastructure.Services;
@@ -22,7 +22,7 @@ namespace ShelfLayoutManager.Infrastructure.Data
         public DbSet<Cabinet> Cabinets { get; private set; }
         public DbSet<Row> Rows { get; private set; }
         public DbSet<Lane> Lanes { get; private set; }
-        public DbSet<SKU> SKUs { get; private set; }
+        public DbSet<Sku> SKUs { get; private set; }
         public DbSet<Log> Logs { get; private set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -38,7 +38,7 @@ namespace ShelfLayoutManager.Infrastructure.Data
 
             builder.Entity<Lane>().ToTable("TB_LANE").HasKey(c => c.Id);
 
-            builder.Entity<SKU>().ToTable("TB_SKU").HasKey(c => c.JanCode);
+            builder.Entity<Sku>().ToTable("TB_SKU").HasKey(c => c.JanCode);
 
             builder.Entity<Log>().ToTable("TB_LOG");
         }
@@ -64,9 +64,6 @@ namespace ShelfLayoutManager.Infrastructure.Data
         {
             var dbSeedService = new DbSeedService(this);
             dbSeedService.InitializeAsync();
-
-            var csvService = new CSVService();
-
         }
     }
 }

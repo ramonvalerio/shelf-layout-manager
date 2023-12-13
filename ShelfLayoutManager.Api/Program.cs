@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using ShelfLayoutManager.Core.Application.Shelfs;
-using ShelfLayoutManager.Core.Application.SKUs;
+using ShelfLayoutManager.Core.Application.Skus;
 using ShelfLayoutManager.Core.Domain.Cabinets;
 using ShelfLayoutManager.Core.Domain.Lanes;
 using ShelfLayoutManager.Core.Domain.Rows;
-using ShelfLayoutManager.Core.Domain.SKUs;
+using ShelfLayoutManager.Core.Domain.Skus;
 using ShelfLayoutManager.Core.Repository;
 using ShelfLayoutManager.Core.Services;
 using ShelfLayoutManager.Infrastructure.Data;
@@ -26,12 +26,12 @@ builder.Services.AddDbContext<DataContext>(options =>
 });
 
 builder.Services.AddScoped<IShelfApplication, ShelfApplication>();
-builder.Services.AddScoped<ISKUApplication, SKUApplication>();
+builder.Services.AddScoped<ISkuApplication, SkuApplication>();
 
 builder.Services.AddScoped<ICabinetRepository, CabinetRepository>();
 builder.Services.AddScoped<IRowRepository, RowRepository>();
 builder.Services.AddScoped<ILaneRepository, LaneRepository>();
-builder.Services.AddScoped<ISKURepository, SKURepository>();
+builder.Services.AddScoped<ISkuRepository, SKURepository>();
 
 builder.Services.AddScoped<IJanCodeValidatorService, JanCodeValidatorService>();
 

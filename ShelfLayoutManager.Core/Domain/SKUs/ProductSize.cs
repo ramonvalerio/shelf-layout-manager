@@ -1,4 +1,4 @@
-﻿namespace ShelfLayoutManager.Core.Domain.SKUs
+﻿namespace ShelfLayoutManager.Core.Domain.Skus
 {
     public class ProductSize
     {

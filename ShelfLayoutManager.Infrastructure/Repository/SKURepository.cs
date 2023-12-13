@@ -1,9 +1,9 @@
-﻿using ShelfLayoutManager.Core.Domain.SKUs;
+﻿using ShelfLayoutManager.Core.Domain.Skus;
 using ShelfLayoutManager.Infrastructure.Data;
 
 namespace ShelfLayoutManager.Infrastructure.Repository
 {
-    public class SKURepository : ReadBaseRepository<SKU>, ISKURepository
+    public class SKURepository : ReadBaseRepository<Sku>, ISkuRepository
     {
         private readonly DataContext _context;
 
@@ -12,7 +12,7 @@ namespace ShelfLayoutManager.Infrastructure.Repository
             _context = context;
         }
 
-        public async Task<SKU> Create(SKU sku)
+        public async Task<Sku> Create(Sku sku)
         {
             try
             {
@@ -26,7 +26,7 @@ namespace ShelfLayoutManager.Infrastructure.Repository
             }
         }
 
-        public async Task<SKU> Update(SKU sku)
+        public async Task<Sku> Update(Sku sku)
         {
             try
             {
