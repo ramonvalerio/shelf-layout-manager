@@ -3,6 +3,6 @@
     public interface IReadBaseRepository<TEntity> where TEntity : class
     {
         Task<List<TEntity>> GetAllAsync();
-        Task<TEntity> GetByIdAsync(int id);
+        Task<TEntity> GetByIdAsync<T>(T id);
     }
 }

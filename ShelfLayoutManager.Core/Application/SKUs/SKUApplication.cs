@@ -16,7 +16,7 @@ namespace ShelfLayoutManager.Core.Application.SKUs
             return await _skuRepository.GetAllAsync();
         }
 
-        public async Task<SKU> GetSkuByJanCode(int janCode)
+        public async Task<SKU> GetSkuByJanCode(string janCode)
         {
             return await _skuRepository.GetByIdAsync(janCode);
         }

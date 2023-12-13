@@ -25,9 +25,9 @@ namespace ShelfLayoutManager.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult> Get(int id)
+        public async Task<ActionResult> Get(string id)
         {
-            var result = _application.GetSkuByJanCode(id);
+            var result = await _application.GetSkuByJanCode(id);
             return Ok(result);
         }
 

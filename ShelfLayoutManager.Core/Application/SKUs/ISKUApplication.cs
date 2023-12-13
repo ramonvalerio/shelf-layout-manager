@@ -6,6 +6,6 @@ namespace ShelfLayoutManager.Core.Application.SKUs
     public interface ISKUApplication
     {
         Task<List<SKU>> GetSAllSku();
-        Task<SKU> GetSkuByJanCode(int janCode);
+        Task<SKU> GetSkuByJanCode(string janCode);
     }
 }

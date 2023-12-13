@@ -18,7 +18,7 @@ namespace ShelfLayoutManager.Infrastructure.Repository
             return await _dbSet.ToListAsync();
         }
 
-        public async Task<TEntity> GetByIdAsync(int id)
+        public async Task<TEntity> GetByIdAsync<T>(T id)
         {
             return await _dbSet.FindAsync(id);
         }
