@@ -17,9 +17,7 @@ namespace ShelfLayoutManager.Infrastructure.Services
                 ContractResolver = new PrivateResolver()
             };
 
-            var shelf = JsonConvert.DeserializeObject<Shelf>(jsonData);
-
-            return shelf;
+            return JsonConvert.DeserializeObject<Shelf>(jsonData);
         }
 
         private class PrivateResolver : DefaultContractResolver

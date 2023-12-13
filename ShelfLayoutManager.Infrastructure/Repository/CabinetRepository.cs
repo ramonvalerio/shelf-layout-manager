@@ -6,11 +6,8 @@ namespace ShelfLayoutManager.Core.Repository
 {
     public class CabinetRepository : ReadBaseRepository<Cabinet>, ICabinetRepository
     {
-        private readonly DataContext _context;
-
         public CabinetRepository(DataContext context) : base(context)
         {
-            _context = context;
         }
     }
 }
