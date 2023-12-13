@@ -7,6 +7,7 @@ using ShelfLayoutManager.Core.Domain.Lanes;
 using ShelfLayoutManager.Core.Domain.Rows;
 using ShelfLayoutManager.Infrastructure.Identity;
 using ShelfLayoutManager.Infrastructure.Logging;
+using ShelfLayoutManager.Infrastructure.Services;
 
 namespace ShelfLayoutManager.Infrastructure.Data
 {
@@ -14,11 +15,7 @@ namespace ShelfLayoutManager.Infrastructure.Data
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
-            if (!Database.GetService<IRelationalDatabaseCreator>().Exists())
-            {
-                Database.EnsureCreated();
-                Database.Migrate();
-            }
+            CreateDatabaseIfNotExists();
         }
 
         public DbSet<Cabinet> Cabinets { get; private set; }
@@ -30,15 +27,38 @@ namespace ShelfLayoutManager.Infrastructure.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<Cabinet>().ToTable("TB_CABINET").HasKey(c => c.Number);
+            builder.Entity<Cabinet>().ToTable("TB_CABINET").HasKey(c => c.Id);
             builder.Entity<Cabinet>().OwnsOne(c => c.Position);
             builder.Entity<Cabinet>().OwnsOne(c => c.Size);
 
-            builder.Entity<Row>().ToTable("TB_ROW").HasKey(c => c.Number);
+            builder.Entity<Row>().ToTable("TB_ROW").HasKey(c => c.Id);
             builder.Entity<Row>().OwnsOne(c => c.Size);
 
-            builder.Entity<Lane>().ToTable("TB_LANE").HasKey(c => c.Number);
+            builder.Entity<Lane>().ToTable("TB_LANE").HasKey(c => c.Id);
             builder.Entity<Log>().ToTable("TB_LOG");
+        }
+
+        public void CreateDatabaseIfNotExists()
+        {
+            try
+            {
+                if (!Database.GetService<IRelationalDatabaseCreator>().Exists())
+                {
+                    Database.EnsureCreated();
+                    Database.Migrate();
+                    Seed();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Database Server not found.", ex);
+            }
+        }
+
+        public void Seed()
+        {
+            var dbSeedService = new DbSeedService(this);
+            dbSeedService.InitializeAsync();
         }
     }
 }

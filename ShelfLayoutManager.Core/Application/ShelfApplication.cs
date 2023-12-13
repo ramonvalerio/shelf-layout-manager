@@ -1,6 +1,7 @@
 ﻿using ShelfLayoutManager.Core.Domain.Cabinets;
 using ShelfLayoutManager.Core.Domain.Lanes;
 using ShelfLayoutManager.Core.Domain.Rows;
+using ShelfLayoutManager.Core.Domain.Shelves;
 
 namespace ShelfLayoutManager.Core.Application
 {
@@ -24,7 +25,7 @@ namespace ShelfLayoutManager.Core.Application
             return await _cabinetRepository.GetByIdAsync(number);
         }
 
-        public async Task<List<Cabinet>> GetCabinets()
+        public async Task<Shelf> GetShelf()
         {
             var cabinets = await _cabinetRepository.GetAllAsync();
             var rows = await _rowRepository.GetAllAsync();
@@ -32,17 +33,17 @@ namespace ShelfLayoutManager.Core.Application
 
             foreach (var cabinet in cabinets)
             {
-                var cabinetRows = rows.Where(x => x.Number == cabinet.Number);
+                var cabinetRows = rows.Where(x => x.CabinetId == cabinet.Id).ToList();
                 cabinet.Rows.AddRange(cabinetRows);
 
                 foreach (var row in cabinet.Rows)
                 {
-                    var rowLanes = row.Lanes.Where(x => x.Number == x.Number);
+                    var rowLanes = row.Lanes.Where(x => x.RowId == row.Id).ToList();
                     row.Lanes.AddRange(rowLanes);
                 }
             }
 
-            return cabinets;
+            return new Shelf(cabinets);
         }
     }
 }

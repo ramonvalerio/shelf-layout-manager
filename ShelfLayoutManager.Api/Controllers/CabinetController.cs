@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ShelfLayoutManager.Core.Application;
 using ShelfLayoutManager.Core.Domain.Cabinets;
+using ShelfLayoutManager.Core.Domain.Shelves;
 
 namespace ShelfLayoutManager.Api.Controllers
 {
@@ -20,8 +21,8 @@ namespace ShelfLayoutManager.Api.Controllers
         [HttpGet(Name = "Cabinet")]
         public async Task<ActionResult> Get()
         {
-            var result = _application.GetCabinets();
-            return Ok(new { result });
+            var result = await _application.GetShelf();
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
