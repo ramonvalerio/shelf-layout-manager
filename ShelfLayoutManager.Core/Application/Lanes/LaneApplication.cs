@@ -13,37 +13,43 @@ namespace ShelfLayoutManager.Core.Application.Lanes
 
         public async Task<List<Lane>> GetLanesByJanCode(string janCode)
         {
-            throw new NotImplementedException();
+            return await _laneRepository.GetAllByJanCode(janCode);
         }
 
-        public async Task<List<Lane>> GetLanesByJanCodeFromCabinet(string cabinetNumber, string janCode)
+        public async Task<List<Lane>> GetLanesByJanCodeFromCabinet(int cabinetNumber, string janCode)
         {
-            throw new NotImplementedException();
+            return await _laneRepository.GetAllByJanCodeFromCabinet(cabinetNumber, janCode);
         }
 
-        public async Task<List<Lane>> GetLanesByJanCodeFromCabinetRow(string cabinetNumber, string rowNumber, string janCode)
+        public async Task<List<Lane>> GetLanesByJanCodeFromCabinetRow(int cabinetNumber, int rowNumber, string janCode)
         {
-            throw new NotImplementedException();
+            return await _laneRepository.GetAllByJanCodeFromCabinetRow(cabinetNumber, rowNumber, janCode);
         }
 
-        public async Task<Lane> GetLaneByNumberFromCabinetRow(string cabinetNumber, string rowNumber, string number)
+        public async Task<Lane> GetLaneByNumberFromCabinetRow(int cabinetNumber, int rowNumber, int number)
         {
-            throw new NotImplementedException();
+            return await _laneRepository.GetByNumberFromCabinetRow(cabinetNumber, rowNumber, number);
         }
 
-        public async Task CreateLaneFromCabinetRow(string cabinetNumber, string rowNumber, Lane lane)
+        public async Task CreateLaneFromCabinetRow(int cabinetNumber, int rowNumber, Lane lane)
         {
-            throw new NotImplementedException();
+            lane.RowCabinetNumber = cabinetNumber;
+            lane.RowNumber = rowNumber;
+
+            await _laneRepository.CreateFromCabinetRow(cabinetNumber, rowNumber, lane);
         }
 
-        public async Task UpdateLaneFromCabinetRow(string cabinetNumber, string rowNumber, Lane lane)
+        public async Task UpdateLaneFromCabinetRow(int cabinetNumber, int rowNumber, Lane lane)
         {
-            throw new NotImplementedException();
+            lane.RowCabinetNumber = cabinetNumber;
+            lane.RowNumber = rowNumber;
+
+            await _laneRepository.UpdateFromCabinetRow(cabinetNumber, rowNumber, lane);
         }
 
-        public async Task DeleteLaneFromCabinetRow(string cabinetNumber, string rowNumber, string number)
+        public async Task DeleteLaneFromCabinetRow(int cabinetNumber, int rowNumber, int number)
         {
-            throw new NotImplementedException();
+            await _laneRepository.DeleteFromCabinetRow(cabinetNumber, rowNumber, number);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace ShelfLayoutManager.Api.Controllers
             _application = application;
         }
 
-        [HttpGet(Name = "Sku")]
+        [HttpGet(Name = "sku")]
         public async Task<ActionResult> Get()
         {
             var result = await _application.GetSkus();

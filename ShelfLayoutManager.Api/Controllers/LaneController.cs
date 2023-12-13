@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShelfLayoutManager.Core.Application.Lanes;
+using ShelfLayoutManager.Core.Domain.Lanes;
 using ShelfLayoutManager.Core.Domain.Skus;
 
 namespace ShelfLayoutManager.Api.Controllers
@@ -17,26 +18,25 @@ namespace ShelfLayoutManager.Api.Controllers
             _application = application;
         }
 
-        [HttpGet(Name = "Lane")]
+        [HttpGet(Name = "lane")]
         public async Task<ActionResult> Get()
         {
-            //var result = await _application.GetSAllSku();
             return Ok();
         }
 
         [HttpGet("{janCode}")]
-        public async Task<ActionResult> Get(string janCode)
+        public async Task<ActionResult<List<Lane>>> Get(string janCode)
         {
-            //var result = await _application.GetSkuByJanCode(janCode);
-            return Ok();
+            var result = await _application.GetLanesByJanCode(janCode);
+            return Ok(result);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromBody] Sku sku)
+        public async Task<ActionResult> Create(int cabinetNumber, int rowNumber, [FromBody] Lane lane)
         {
             try
             {
-                //await _application.CreateSku(sku);
+                await _application.CreateLaneFromCabinetRow(cabinetNumber, rowNumber, lane);
                 return Ok();
             }
             catch (Exception ex)

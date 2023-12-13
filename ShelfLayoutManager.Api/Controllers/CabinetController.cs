@@ -17,17 +17,17 @@ namespace ShelfLayoutManager.Api.Controllers
             _application = application;
         }
 
-        [HttpGet(Name = "Cabinet")]
+        [HttpGet(Name = "cabinet")]
         public async Task<ActionResult<List<Cabinet>>> Get()
         {
             var result = await _application.GetCabinets();
             return Ok(result);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Cabinet>> Get(int id)
+        [HttpGet("{number}")]
+        public async Task<ActionResult<Cabinet>> Get(int number)
         {
-            var result = _application.GetCabinetByNumber(id);
+            var result = _application.GetCabinetByNumber(number);
             return Ok(result);
         }
 
@@ -37,14 +37,14 @@ namespace ShelfLayoutManager.Api.Controllers
             return NotFound();
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int id, [FromBody] Cabinet cabinet)
+        [HttpPut("{number}")]
+        public async Task<ActionResult> Update(int number, [FromBody] Cabinet cabinet)
         {
             return NotFound();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        [HttpDelete("{number}")]
+        public async Task<ActionResult> Delete(int number)
         {
             return NotFound();
         }

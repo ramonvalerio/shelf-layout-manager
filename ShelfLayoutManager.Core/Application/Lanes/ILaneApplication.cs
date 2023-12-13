@@ -5,11 +5,11 @@ namespace ShelfLayoutManager.Core.Application.Lanes
     public interface ILaneApplication
     {
         Task<List<Lane>> GetLanesByJanCode(string janCode);
-        Task<List<Lane>> GetLanesByJanCodeFromCabinet(string cabinetNumber, string janCode);
-        Task<List<Lane>> GetLanesByJanCodeFromCabinetRow(string cabinetNumber, string rowNumber, string janCode);
-        Task<Lane> GetLaneByNumberFromCabinetRow(string cabinetNumber, string rowNumber, string number);
-        Task CreateLaneFromCabinetRow(string cabinetNumber, string rowNumber, Lane lane);
-        Task UpdateLaneFromCabinetRow(string cabinetNumber, string rowNumber, Lane lane);
-        Task DeleteLaneFromCabinetRow(string cabinetNumber, string rowNumber, string number);
+        Task<List<Lane>> GetLanesByJanCodeFromCabinet(int cabinetNumber, string janCode);
+        Task<List<Lane>> GetLanesByJanCodeFromCabinetRow(int cabinetNumber, int rowNumber, string janCode);
+        Task<Lane> GetLaneByNumberFromCabinetRow(int cabinetNumber, int rowNumber, int number);
+        Task CreateLaneFromCabinetRow(int cabinetNumber, int rowNumber, Lane lane);
+        Task UpdateLaneFromCabinetRow(int cabinetNumber, int rowNumber, Lane lane);
+        Task DeleteLaneFromCabinetRow(int cabinetNumber, int rowNumber, int number);
     }
 }
