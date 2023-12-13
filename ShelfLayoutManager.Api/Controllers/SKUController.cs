@@ -1,44 +1,44 @@
-using Microsoft.AspNetCore.Mvc;
-using ShelfLayoutManager.Core.Application.Shelfs;
-using ShelfLayoutManager.Core.Domain.Cabinets;
+﻿using Microsoft.AspNetCore.Mvc;
+using ShelfLayoutManager.Core.Application.SKUs;
+using ShelfLayoutManager.Core.Domain.SKUs;
 
 namespace ShelfLayoutManager.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CabinetController : ControllerBase
+    public class SKUController : ControllerBase
     {
         private readonly ILogger<CabinetController> _logger;
-        private readonly IShelfApplication _application;
+        private readonly ISKUApplication _application;
 
-        public CabinetController(ILogger<CabinetController> logger, IShelfApplication application)
+        public SKUController(ILogger<CabinetController> logger, ISKUApplication application)
         {
             _logger = logger;
             _application = application;
         }
 
-        [HttpGet(Name = "Cabinet")]
+        [HttpGet(Name = "SKU")]
         public async Task<ActionResult> Get()
         {
-            var result = await _application.GetShelf();
+            var result = await _application.GetSAllSku();
             return Ok(result);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult> Get(int id)
         {
-            var result = _application.GetCabinetByNumber(id);
+            var result = _application.GetSkuByJanCode(id);
             return Ok(result);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromBody] Cabinet cabinet)
+        public async Task<ActionResult> Create([FromBody] SKU sku)
         {
             return NotFound();
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int id, [FromBody] Cabinet cabinet)
+        public async Task<ActionResult> Update(int id, [FromBody] SKU sku)
         {
             return NotFound();
         }

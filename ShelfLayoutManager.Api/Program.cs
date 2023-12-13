@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using ShelfLayoutManager.Core.Application;
+using ShelfLayoutManager.Core.Application.Shelfs;
+using ShelfLayoutManager.Core.Application.SKUs;
 using ShelfLayoutManager.Core.Domain.Cabinets;
 using ShelfLayoutManager.Core.Domain.Lanes;
 using ShelfLayoutManager.Core.Domain.Rows;
@@ -23,6 +24,8 @@ builder.Services.AddDbContext<DataContext>(options =>
 });
 
 builder.Services.AddScoped<IShelfApplication, ShelfApplication>();
+builder.Services.AddScoped<ISKUApplication, SKUApplication>();
+
 builder.Services.AddScoped<ICabinetRepository, CabinetRepository>();
 builder.Services.AddScoped<IRowRepository, RowRepository>();
 builder.Services.AddScoped<ILaneRepository, LaneRepository>();
@@ -38,9 +41,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

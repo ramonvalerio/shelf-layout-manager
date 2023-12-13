@@ -3,14 +3,14 @@ using ShelfLayoutManager.Core.Domain.Lanes;
 using ShelfLayoutManager.Core.Domain.Rows;
 using ShelfLayoutManager.Core.Domain.Shelves;
 
-namespace ShelfLayoutManager.Core.Application
+namespace ShelfLayoutManager.Core.Application.Shelfs
 {
     public class ShelfApplication : IShelfApplication
     {
         private readonly ICabinetRepository _cabinetRepository;
         private readonly IRowRepository _rowRepository;
         private readonly ILaneRepository _laneRepository;
-        
+
         public ShelfApplication(ICabinetRepository cabinetRepository,
             IRowRepository rowRepository,
             ILaneRepository laneRepository)
