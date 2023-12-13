@@ -5,7 +5,7 @@ using ShelfLayoutManager.Core.Domain.Rows;
 namespace ShelfLayoutManager.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("row")]
     public class RowController : ControllerBase
     {
         private readonly ILogger<RowController> _logger;
@@ -17,21 +17,21 @@ namespace ShelfLayoutManager.Api.Controllers
             _application = application;
         }
 
-        [HttpGet("{cabinetNumber}")]
+        [HttpGet("cabinet/{cabinetNumber}")]
         public async Task<ActionResult> Get(string cabinetNumber)
         {
             var result = await _application.GetRowsByCabinetNumber(cabinetNumber);
             return Ok(result);
         }
 
-        [HttpGet("{cabinetNumber}/{number}")]
+        [HttpGet("cabinet/{cabinetNumber}/number/{number}")]
         public async Task<ActionResult> Get(string cabinetNumber, string number)
         {
             var result = await _application.GetRowByCabinetNumber(cabinetNumber, number);
             return Ok(result);
         }
 
-        [HttpPost("{cabinetNumber}")]
+        [HttpPost("cabinet/{cabinetNumber}")]
         public async Task<ActionResult> Create(string cabinetNumber, [FromBody] Row row)
         {
             try
@@ -45,7 +45,7 @@ namespace ShelfLayoutManager.Api.Controllers
             }
         }
 
-        [HttpPut("{cabinetNumber}")]
+        [HttpPut("cabinet/{cabinetNumber}")]
         public async Task<ActionResult> Update(string cabinetNumber, [FromBody] Row row)
         {
             try
@@ -59,7 +59,7 @@ namespace ShelfLayoutManager.Api.Controllers
             }
         }
 
-        [HttpDelete("{cabinetNumber}/{number}")]
+        [HttpDelete("cabinet/{cabinetNumber}/number/{number}")]
         public async Task<ActionResult> Delete(string cabinetNumber, string number)
         {
             try

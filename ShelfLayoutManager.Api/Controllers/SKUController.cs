@@ -5,7 +5,7 @@ using ShelfLayoutManager.Core.Domain.Skus;
 namespace ShelfLayoutManager.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("sku")]
     public class SkuController : ControllerBase
     {
         private readonly ILogger<SkuController> _logger;

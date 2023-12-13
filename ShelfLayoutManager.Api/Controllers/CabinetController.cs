@@ -5,7 +5,7 @@ using ShelfLayoutManager.Core.Domain.Cabinets;
 namespace ShelfLayoutManager.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("cabinet")]
     public class CabinetController : ControllerBase
     {
         private readonly ILogger<CabinetController> _logger;

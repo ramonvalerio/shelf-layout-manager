@@ -5,7 +5,7 @@ using ShelfLayoutManager.Core.Domain.Lanes;
 namespace ShelfLayoutManager.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("lane")]
     public class LaneController : ControllerBase
     {
         private readonly ILogger<LaneController> _logger;
@@ -32,7 +32,7 @@ namespace ShelfLayoutManager.Api.Controllers
             }
         }
 
-        [HttpGet("{cabinetNumber}/{janCode}")]
+        [HttpGet("cabinet/{cabinetNumber}/jancode/{janCode}")]
         public async Task<ActionResult> Get(int cabinetNumber, string janCode)
         {
             try
@@ -47,7 +47,7 @@ namespace ShelfLayoutManager.Api.Controllers
             }
         }
 
-        [HttpGet("{cabinetNumber}/{rowNumber}/{janCode}")]
+        [HttpGet("cabinet/{cabinetNumber}/row/{rowNumber}/jancode/{janCode}")]
         public async Task<ActionResult> Get(int cabinetNumber, int rowNumber, string janCode)
         {
             try
@@ -62,7 +62,7 @@ namespace ShelfLayoutManager.Api.Controllers
             }
         }
 
-        [HttpGet("{cabinetNumber}/{rowNumber}/{number}")]
+        [HttpGet("cabinet/{cabinetNumber}/row/{rowNumber}/number/{number}")]
         public async Task<ActionResult> Get(int cabinetNumber, int rowNumber, int number)
         {
             try
@@ -77,7 +77,7 @@ namespace ShelfLayoutManager.Api.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("cabinet/{cabinetNumber}/row/{rowNumber}")]
         public async Task<ActionResult> Create(int cabinetNumber, int rowNumber, [FromBody] Lane lane)
         {
             try
@@ -92,12 +92,12 @@ namespace ShelfLayoutManager.Api.Controllers
             }
         }
 
-        [HttpPut("{cabinetNumber}/{rowNumber}/{number}")]
-        public async Task<ActionResult> Update(int cabinetNumber, int rowNumber, int number, [FromBody] Lane lane)
+        [HttpPut("cabinet/{cabinetNumber}/row/{rowNumber}")]
+        public async Task<ActionResult> Update(int cabinetNumber, int rowNumber, [FromBody] Lane lane)
         {
             try
             {
-                await _application.UpdateLaneFromCabinetRow(cabinetNumber, rowNumber, number, lane);
+                await _application.UpdateLaneFromCabinetRow(cabinetNumber, rowNumber, lane.Number, lane);
                 return Ok();
             }
             catch (Exception ex)
@@ -107,7 +107,7 @@ namespace ShelfLayoutManager.Api.Controllers
             }
         }
 
-        [HttpDelete("{cabinetNumber}/{rowNumber}/{number}")]
+        [HttpDelete("cabinet/{cabinetNumber}/row/{rowNumber}/number/{number}")]
         public async Task<ActionResult> Delete(int cabinetNumber, int rowNumber, int number)
         {
             try

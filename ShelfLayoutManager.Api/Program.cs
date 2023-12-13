@@ -45,7 +45,12 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(x =>
+    {
+        x.SwaggerEndpoint("/swagger/v1/swagger.json", "Shelf Layout Manager V1");
+        x.DocumentTitle = "Shelf Layout Manager";
+        
+    });
 }
 
 app.UseHttpsRedirection();
