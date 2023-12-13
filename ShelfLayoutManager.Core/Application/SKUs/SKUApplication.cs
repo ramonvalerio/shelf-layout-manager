@@ -1,14 +1,17 @@
 ﻿using ShelfLayoutManager.Core.Domain.SKUs;
+using ShelfLayoutManager.Core.Services;
 
 namespace ShelfLayoutManager.Core.Application.SKUs
 {
     public class SKUApplication : ISKUApplication
     {
         private readonly ISKURepository _skuRepository;
+        private readonly IJanCodeValidatorService _janCodeValidatorService;
 
-        public SKUApplication(ISKURepository skuRepository)
+        public SKUApplication(ISKURepository skuRepository, IJanCodeValidatorService janCodeValidatorService)
         {
             _skuRepository = skuRepository;
+            _janCodeValidatorService = janCodeValidatorService;
         }
 
         public async Task<List<SKU>> GetSAllSku()
@@ -23,6 +26,9 @@ namespace ShelfLayoutManager.Core.Application.SKUs
 
         public async Task<SKU> CreateSku(SKU sku)
         {
+            if (!_janCodeValidatorService.IsValidJanCode(sku.JanCode))
+                throw new FormatException($"The JAN Code provided is invalid: '{sku.JanCode}'.");
+
             return await _skuRepository.Create(sku);
         }
 

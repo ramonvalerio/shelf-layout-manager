@@ -6,8 +6,10 @@ using ShelfLayoutManager.Core.Domain.Lanes;
 using ShelfLayoutManager.Core.Domain.Rows;
 using ShelfLayoutManager.Core.Domain.SKUs;
 using ShelfLayoutManager.Core.Repository;
+using ShelfLayoutManager.Core.Services;
 using ShelfLayoutManager.Infrastructure.Data;
 using ShelfLayoutManager.Infrastructure.Repository;
+using ShelfLayoutManager.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +32,8 @@ builder.Services.AddScoped<ICabinetRepository, CabinetRepository>();
 builder.Services.AddScoped<IRowRepository, RowRepository>();
 builder.Services.AddScoped<ILaneRepository, LaneRepository>();
 builder.Services.AddScoped<ISKURepository, SKURepository>();
+
+builder.Services.AddScoped<IJanCodeValidatorService, JanCodeValidatorService>();
 
 var app = builder.Build();
 
