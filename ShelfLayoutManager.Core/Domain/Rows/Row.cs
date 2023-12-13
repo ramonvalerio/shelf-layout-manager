@@ -11,7 +11,7 @@ namespace ShelfLayoutManager.Core.Domain.Rows
         public int Number { get; set; }
         public List<Lane> Lanes { get; set; }
         public float PositionZ { get; set; }
-        public Size Size { get; set; }
+        public RowSize Size { get; set; }
 
         [JsonIgnore]
         public int CabinetId { get; private set; }
@@ -25,7 +25,7 @@ namespace ShelfLayoutManager.Core.Domain.Rows
         {
             Number = number;
             PositionZ = position;
-            Size = new Size(0, 0, height);
+            Size = new RowSize(height);
             Size.Height = height;
             Lanes = lanes;
         }
