@@ -39,12 +39,12 @@ namespace ShelfLayoutManager.Core.Application.Lanes
             await _laneRepository.CreateFromCabinetRow(cabinetNumber, rowNumber, lane);
         }
 
-        public async Task UpdateLaneFromCabinetRow(int cabinetNumber, int rowNumber, Lane lane)
+        public async Task UpdateLaneFromCabinetRow(int cabinetNumber, int rowNumber, int number, Lane lane)
         {
             lane.RowCabinetNumber = cabinetNumber;
             lane.RowNumber = rowNumber;
 
-            await _laneRepository.UpdateFromCabinetRow(cabinetNumber, rowNumber, lane);
+            await _laneRepository.UpdateFromCabinetRow(cabinetNumber, rowNumber, number, lane);
         }
 
         public async Task DeleteLaneFromCabinetRow(int cabinetNumber, int rowNumber, int number)

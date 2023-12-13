@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShelfLayoutManager.Core.Application.Lanes;
 using ShelfLayoutManager.Core.Domain.Lanes;
-using ShelfLayoutManager.Core.Domain.Skus;
 
 namespace ShelfLayoutManager.Api.Controllers
 {
@@ -18,17 +17,64 @@ namespace ShelfLayoutManager.Api.Controllers
             _application = application;
         }
 
-        [HttpGet(Name = "lane")]
-        public async Task<ActionResult> Get()
-        {
-            return Ok();
-        }
-
         [HttpGet("{janCode}")]
         public async Task<ActionResult<List<Lane>>> Get(string janCode)
         {
-            var result = await _application.GetLanesByJanCode(janCode);
-            return Ok(result);
+            try
+            {
+                var result = await _application.GetLanesByJanCode(janCode);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting lanes by JAN code");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpGet("{cabinetNumber}/{janCode}")]
+        public async Task<ActionResult> Get(int cabinetNumber, string janCode)
+        {
+            try
+            {
+                var result = await _application.GetLanesByJanCodeFromCabinet(cabinetNumber, janCode);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting lanes by JAN code From Cabinet");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpGet("{cabinetNumber}/{rowNumber}/{janCode}")]
+        public async Task<ActionResult> Get(int cabinetNumber, int rowNumber, string janCode)
+        {
+            try
+            {
+                var result = await _application.GetLanesByJanCodeFromCabinetRow(cabinetNumber, rowNumber, janCode);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting lanes by JAN code From Row in a specific Cabinet");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpGet("{cabinetNumber}/{rowNumber}/{number}")]
+        public async Task<ActionResult> Get(int cabinetNumber, int rowNumber, int number)
+        {
+            try
+            {
+                var result = await _application.GetLaneByNumberFromCabinetRow(cabinetNumber, rowNumber, number);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting a lane by Number From Row in a specific Cabinet");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpPost]
@@ -41,35 +87,38 @@ namespace ShelfLayoutManager.Api.Controllers
             }
             catch (Exception ex)
             {
-                return NotFound(ex);
+                _logger.LogError(ex, "Error creating lane");
+                return StatusCode(500, "Internal server error");
             }
         }
 
-        [HttpPut("{janCode}")]
-        public async Task<ActionResult> Update(string janCode, [FromBody] Sku sku)
+        [HttpPut("{cabinetNumber}/{rowNumber}/{number}")]
+        public async Task<ActionResult> Update(int cabinetNumber, int rowNumber, int number, [FromBody] Lane lane)
         {
             try
             {
-                //await _application.UpdateSku(janCode, sku);
+                await _application.UpdateLaneFromCabinetRow(cabinetNumber, rowNumber, number, lane);
                 return Ok();
             }
             catch (Exception ex)
             {
-                return NotFound(ex);
+                _logger.LogError(ex, "Error updating lane");
+                return StatusCode(500, "Internal server error");
             }
         }
 
-        [HttpDelete("{janCode}")]
-        public async Task<ActionResult> Delete(string janCode)
+        [HttpDelete("{cabinetNumber}/{rowNumber}/{number}")]
+        public async Task<ActionResult> Delete(int cabinetNumber, int rowNumber, int number)
         {
             try
             {
-                //await _application.DeleteSku(janCode);
+                await _application.DeleteLaneFromCabinetRow(cabinetNumber, rowNumber, number);
                 return Ok();
             }
             catch (Exception ex)
             {
-                return NotFound(ex);
+                _logger.LogError(ex, "Error deleting lane");
+                return StatusCode(500, "Internal server error");
             }
         }
     }

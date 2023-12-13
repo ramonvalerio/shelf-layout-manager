@@ -20,39 +20,67 @@ namespace ShelfLayoutManager.Infrastructure.Repository
                 .ToListAsync();
         }
 
-        public Task<List<Lane>> GetAllByJanCode(string janCode)
+        public async Task<List<Lane>> GetAllByJanCode(string janCode)
         {
-            throw new NotImplementedException();
+            return await _context.Lanes.Where(x => x.JanCode == janCode).ToListAsync();
         }
 
-        public Task<List<Lane>> GetAllByJanCodeFromCabinet(int cabinetNumber, string janCode)
+        public async Task<List<Lane>> GetAllByJanCodeFromCabinet(int cabinetNumber, string janCode)
         {
-            throw new NotImplementedException();
+            return await _context.Lanes
+            .Where(x => x.RowCabinetNumber == cabinetNumber && x.JanCode == janCode)
+            .ToListAsync();
         }
 
-        public Task<List<Lane>> GetAllByJanCodeFromCabinetRow(int cabinetNumber, int rowNumber, string janCode)
+        public async Task<List<Lane>> GetAllByJanCodeFromCabinetRow(int cabinetNumber, int rowNumber, string janCode)
         {
-            throw new NotImplementedException();
+            return await _context.Lanes
+            .Where(x => x.RowCabinetNumber == cabinetNumber && x.RowNumber == rowNumber && x.JanCode == janCode)
+            .ToListAsync();
         }
 
-        public Task<Lane> GetByNumberFromCabinetRow(int cabinetNumber, int rowNumber, int number)
+        public async Task<Lane> GetByNumberFromCabinetRow(int cabinetNumber, int rowNumber, int number)
         {
-            throw new NotImplementedException();
+            return await _context.Lanes.FirstOrDefaultAsync(
+                x => x.RowCabinetNumber == cabinetNumber 
+                && x.RowNumber == rowNumber 
+                && x.Number == number);
         }
 
-        public Task CreateFromCabinetRow(int cabinetNumber, int rowNumber, Lane lane)
+        public async Task CreateFromCabinetRow(int cabinetNumber, int rowNumber, Lane lane)
         {
-            throw new NotImplementedException();
+            lane.RowCabinetNumber = cabinetNumber;
+            lane.RowNumber = rowNumber;
+            _context.Lanes.Add(lane);
+            await _context.SaveChangesAsync();
         }
 
-        public Task UpdateFromCabinetRow(int cabinetNumber, int rowNumber, Lane lane)
+        public async Task UpdateFromCabinetRow(int cabinetNumber, int rowNumber, int number, Lane lane)
         {
-            throw new NotImplementedException();
+            var existingLane = await _context.Lanes
+            .FirstOrDefaultAsync(x => x.RowCabinetNumber == cabinetNumber && x.RowNumber == rowNumber && x.Number == number);
+
+            if (existingLane == null)
+                throw new Exception("Lane not found");
+
+            existingLane.JanCode = lane.JanCode;
+            existingLane.Quantity = lane.Quantity;
+            existingLane.PositionX = lane.PositionX;
+
+            _context.Lanes.Update(existingLane);
+            await _context.SaveChangesAsync();
         }
 
-        public Task DeleteFromCabinetRow(int cabinetNumber, int rowNumber, int number)
+        public async Task DeleteFromCabinetRow(int cabinetNumber, int rowNumber, int number)
         {
-            throw new NotImplementedException();
+            var lane = await _context.Lanes
+            .FirstOrDefaultAsync(x => x.RowCabinetNumber == cabinetNumber && x.RowNumber == rowNumber && x.Number == number);
+
+            if (lane == null)
+                throw new Exception("Lane not found");
+
+            _context.Lanes.Remove(lane);
+            await _context.SaveChangesAsync();
         }
     }
 }
