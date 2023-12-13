@@ -1,17 +1,16 @@
 ﻿using ShelfLayoutManager.Core.Domain.Cabinets;
 using ShelfLayoutManager.Core.Domain.Lanes;
 using ShelfLayoutManager.Core.Domain.Rows;
-using ShelfLayoutManager.Core.Domain.Shelves;
 
 namespace ShelfLayoutManager.Core.Application.Shelfs
 {
-    public class ShelfApplication : IShelfApplication
+    public class CabinetApplication : ICabinetApplication
     {
         private readonly ICabinetRepository _cabinetRepository;
         private readonly IRowRepository _rowRepository;
         private readonly ILaneRepository _laneRepository;
 
-        public ShelfApplication(ICabinetRepository cabinetRepository,
+        public CabinetApplication(ICabinetRepository cabinetRepository,
             IRowRepository rowRepository,
             ILaneRepository laneRepository)
         {
@@ -20,30 +19,28 @@ namespace ShelfLayoutManager.Core.Application.Shelfs
             _laneRepository = laneRepository;
         }
 
-        public async Task<Cabinet> GetCabinetByNumber(int number)
-        {
-            return await _cabinetRepository.GetByIdAsync(number);
-        }
-
-        public async Task<Shelf> GetShelf()
+        public async Task<List<Cabinet>> GetCabinets()
         {
             var cabinets = await _cabinetRepository.GetAllAsync();
-            var rows = await _rowRepository.GetAllAsync();
-            var lanes = await _laneRepository.GetAllAsync();
 
             foreach (var cabinet in cabinets)
             {
-                var cabinetRows = rows.Where(x => x.CabinetId == cabinet.Id).ToList();
+                var cabinetRows = await _rowRepository.GetAllFromCabinet(cabinet.Number);
                 cabinet.Rows.AddRange(cabinetRows);
 
                 foreach (var row in cabinet.Rows)
                 {
-                    var rowLanes = row.Lanes.Where(x => x.RowId == row.Id).ToList();
+                    var rowLanes = await _laneRepository.GetAllByFromCabinetRow(cabinet.Number, row.Number);
                     row.Lanes.AddRange(rowLanes);
                 }
             }
 
-            return new Shelf(cabinets);
+            return cabinets;
+        }
+
+        public async Task<Cabinet> GetCabinetByNumber(int number)
+        {
+            return await _cabinetRepository.GetByIdAsync(number);
         }
     }
 }

@@ -22,23 +22,24 @@ namespace ShelfLayoutManager.Infrastructure.Data
         public DbSet<Cabinet> Cabinets { get; private set; }
         public DbSet<Row> Rows { get; private set; }
         public DbSet<Lane> Lanes { get; private set; }
-        public DbSet<Sku> SKUs { get; private set; }
+        public DbSet<Sku> Skus { get; private set; }
         public DbSet<Log> Logs { get; private set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<Cabinet>().ToTable("TB_CABINET").HasKey(c => c.Id);
-            builder.Entity<Cabinet>().OwnsOne(c => c.Position);
-            builder.Entity<Cabinet>().OwnsOne(c => c.Size);
+            builder.Entity<Cabinet>().ToTable("TB_CABINET").HasKey(x => x.Number);
+            builder.Entity<Cabinet>().ToTable("TB_CABINET").Property(x => x.Number).ValueGeneratedNever();
+            builder.Entity<Cabinet>().OwnsOne(x => x.Position);
+            builder.Entity<Cabinet>().OwnsOne(x => x.Size);
 
-            builder.Entity<Row>().ToTable("TB_ROW").HasKey(c => c.Id);
-            builder.Entity<Row>().OwnsOne(c => c.Size);
+            builder.Entity<Row>().ToTable("TB_ROW").HasKey(x => new { x.Number, x.CabinetNumber });
+            builder.Entity<Row>().OwnsOne(x => x.Size);
 
-            builder.Entity<Lane>().ToTable("TB_LANE").HasKey(c => c.Id);
+            builder.Entity<Lane>().ToTable("TB_LANE").HasKey(x => new { x.Number, x.RowNumber, x.RowCabinetNumber });
 
-            builder.Entity<Sku>().ToTable("TB_SKU").HasKey(c => c.JanCode);
+            builder.Entity<Sku>().ToTable("TB_SKU").HasKey(x => x.JanCode);
 
             builder.Entity<Log>().ToTable("TB_LOG");
         }

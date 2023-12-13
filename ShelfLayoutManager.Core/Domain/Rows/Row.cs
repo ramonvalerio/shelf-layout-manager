@@ -6,15 +6,13 @@ namespace ShelfLayoutManager.Core.Domain.Rows
 {
     public class Row
     {
-        [JsonIgnore]
-        public int Id { get; private set; }
         public int Number { get; set; }
         public List<Lane> Lanes { get; set; }
         public float PositionZ { get; set; }
         public RowSize Size { get; set; }
 
         [JsonIgnore]
-        public int CabinetId { get; private set; }
+        public int CabinetNumber { get; set; }
 
         public Row()
         {

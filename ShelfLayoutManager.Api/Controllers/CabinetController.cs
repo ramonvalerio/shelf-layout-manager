@@ -9,23 +9,23 @@ namespace ShelfLayoutManager.Api.Controllers
     public class CabinetController : ControllerBase
     {
         private readonly ILogger<CabinetController> _logger;
-        private readonly IShelfApplication _application;
+        private readonly ICabinetApplication _application;
 
-        public CabinetController(ILogger<CabinetController> logger, IShelfApplication application)
+        public CabinetController(ILogger<CabinetController> logger, ICabinetApplication application)
         {
             _logger = logger;
             _application = application;
         }
 
         [HttpGet(Name = "Cabinet")]
-        public async Task<ActionResult> Get()
+        public async Task<ActionResult<List<Cabinet>>> Get()
         {
-            var result = await _application.GetShelf();
+            var result = await _application.GetCabinets();
             return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult> Get(int id)
+        public async Task<ActionResult<Cabinet>> Get(int id)
         {
             var result = _application.GetCabinetByNumber(id);
             return Ok(result);

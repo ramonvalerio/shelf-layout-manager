@@ -14,7 +14,7 @@ namespace ShelfLayoutManager.Core.Application.Skus
             _janCodeValidatorService = janCodeValidatorService;
         }
 
-        public async Task<List<Sku>> GetSAllSku()
+        public async Task<List<Sku>> GetSkus()
         {
             return await _skuRepository.GetAllAsync();
         }

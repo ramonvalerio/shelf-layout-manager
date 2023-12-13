@@ -1,11 +1,10 @@
 ﻿using ShelfLayoutManager.Core.Domain.Cabinets;
-using ShelfLayoutManager.Core.Domain.Shelves;
 
 namespace ShelfLayoutManager.Core.Application.Shelfs
 {
-    public interface IShelfApplication
+    public interface ICabinetApplication
     {
-        Task<Shelf> GetShelf();
+        Task<List<Cabinet>> GetCabinets();
 
         Task<Cabinet> GetCabinetByNumber(int number);
     }

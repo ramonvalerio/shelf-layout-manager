@@ -3,11 +3,11 @@ using ShelfLayoutManager.Infrastructure.Data;
 
 namespace ShelfLayoutManager.Infrastructure.Repository
 {
-    public class SKURepository : ReadBaseRepository<Sku>, ISkuRepository
+    public class SkuRepository : ReadBaseRepository<Sku>, ISkuRepository
     {
         private readonly DataContext _context;
 
-        public SKURepository(DataContext context) : base(context)
+        public SkuRepository(DataContext context) : base(context)
         {
             _context = context;
         }
@@ -16,7 +16,7 @@ namespace ShelfLayoutManager.Infrastructure.Repository
         {
             try
             {
-                _context.SKUs.Add(sku);
+                _context.Skus.Add(sku);
                 await _context.SaveChangesAsync();
                 return sku;
             }
@@ -30,7 +30,7 @@ namespace ShelfLayoutManager.Infrastructure.Repository
         {
             try
             {
-                _context.SKUs.Update(sku);
+                _context.Skus.Update(sku);
                 await _context.SaveChangesAsync();
                 return sku;
             }
@@ -44,12 +44,12 @@ namespace ShelfLayoutManager.Infrastructure.Repository
         {
             try
             {
-                var sku = await _context.SKUs.FindAsync(janCode);
+                var sku = await _context.Skus.FindAsync(janCode);
 
                 if (sku == null)
-                    throw new KeyNotFoundException("SKU not found.");
+                    throw new KeyNotFoundException("Sku not found.");
 
-                _context.SKUs.Remove(sku);
+                _context.Skus.Remove(sku);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)

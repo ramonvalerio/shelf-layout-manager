@@ -27,10 +27,10 @@ namespace ShelfLayoutManager.Infrastructure.Services
                 _context.SaveChanges();
             }
 
-            if (!_context.SKUs.Any())
+            if (!_context.Skus.Any())
             {
                 var skus = _csvService.ParseSkuCsv(csvFilePath);
-                _context.SKUs.AddRange(skus);
+                _context.Skus.AddRange(skus);
                 _context.SaveChanges();
             }
         }

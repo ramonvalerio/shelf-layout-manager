@@ -4,14 +4,16 @@ namespace ShelfLayoutManager.Core.Domain.Lanes
 {
     public class Lane
     {
-        [JsonIgnore]
-        public int Id { get; private set; }
         public int Number { get; set; }
         public string JanCode { get; set; }
         public int Quantity { get; set; }
         public float PositionX { get; set; }
+
         [JsonIgnore]
-        public int RowId { get; set; }
+        public int RowCabinetNumber { get; set; }
+
+        [JsonIgnore]
+        public int RowNumber { get; set; }
 
         public Lane()
         {
