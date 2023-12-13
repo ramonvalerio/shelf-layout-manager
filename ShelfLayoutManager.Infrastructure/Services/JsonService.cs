@@ -7,9 +7,8 @@ namespace ShelfLayoutManager.Infrastructure.Services
 {
     public class JsonService
     {
-        public Shelf LoadDataFromJson()
+        public Shelf LoadDataFromJson(string filePath)
         {
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "shelf.json");
             var jsonData = File.ReadAllText(filePath);
 
             var settings = new JsonSerializerSettings

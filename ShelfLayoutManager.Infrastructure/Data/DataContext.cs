@@ -39,7 +39,6 @@ namespace ShelfLayoutManager.Infrastructure.Data
             builder.Entity<Lane>().ToTable("TB_LANE").HasKey(c => c.Id);
 
             builder.Entity<SKU>().ToTable("TB_SKU").HasKey(c => c.JanCode);
-            builder.Entity<SKU>().OwnsOne(c => c.Size);
 
             builder.Entity<Log>().ToTable("TB_LOG");
         }
@@ -65,6 +64,9 @@ namespace ShelfLayoutManager.Infrastructure.Data
         {
             var dbSeedService = new DbSeedService(this);
             dbSeedService.InitializeAsync();
+
+            var csvService = new CSVService();
+
         }
     }
 }
