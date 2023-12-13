@@ -1,6 +1,8 @@
-﻿namespace ShelfLayoutManager.Core.Domain.SKUs
+﻿using ShelfLayoutManager.Core.Domain.Rows;
+
+namespace ShelfLayoutManager.Core.Domain.SKUs
 {
-    public interface ISKURepository
+    public interface ISKURepository : IReadBaseRepository<SKU>
     {
 
     }
