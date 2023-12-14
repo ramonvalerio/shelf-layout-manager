@@ -121,5 +121,21 @@ namespace ShelfLayoutManager.Api.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
+        [HttpPost("MoveDrink")]
+        public async Task<ActionResult> MoveDrink([FromBody] MoveDrinkCommand command)
+        {
+            try
+            {
+                await _application.MoveDrink(command);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error moving drink");
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
     }
 }

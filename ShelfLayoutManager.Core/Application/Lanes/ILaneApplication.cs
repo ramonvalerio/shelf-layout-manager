@@ -11,5 +11,6 @@ namespace ShelfLayoutManager.Core.Application.Lanes
         Task CreateLaneFromCabinetRow(int cabinetNumber, int rowNumber, Lane lane);
         Task UpdateLaneFromCabinetRow(int cabinetNumber, int rowNumber, int number, Lane lane);
         Task DeleteLaneFromCabinetRow(int cabinetNumber, int rowNumber, int number);
+        Task MoveDrink(MoveDrinkCommand command);
     }
 }

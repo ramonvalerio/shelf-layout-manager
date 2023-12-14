@@ -51,5 +51,30 @@ namespace ShelfLayoutManager.Core.Application.Lanes
         {
             await _laneRepository.DeleteFromCabinetRow(cabinetNumber, rowNumber, number);
         }
+
+        public async Task MoveDrink(MoveDrinkCommand command)
+        {
+            var fromLane = await _laneRepository.GetByNumberFromCabinetRow(
+                    command.FromCabinetNumber, command.FromRowNumber, command.FromLaneNumber);
+
+            var toLane = await _laneRepository.GetByNumberFromCabinetRow(
+                command.ToCabinetNumber, command.ToRowNumber, command.ToLaneNumber);
+
+            if (fromLane == null)
+                throw new InvalidOperationException("Origem Lane not found");
+
+            if (toLane == null)
+                throw new InvalidOperationException("Target destiny Lane not found");
+
+            if (fromLane.Quantity < command.Quantity)
+                throw new InvalidOperationException("Insufficient quantity in the origin lane");
+
+            fromLane.Quantity -= command.Quantity;
+            toLane.Quantity += command.Quantity;
+
+            await _laneRepository.UpdateFromCabinetRow(fromLane.RowCabinetNumber, fromLane.RowNumber, fromLane.Number, fromLane);
+            await _laneRepository.UpdateFromCabinetRow(toLane.RowCabinetNumber, toLane.RowNumber, toLane.Number, toLane);
+        }
+
     }
 }
