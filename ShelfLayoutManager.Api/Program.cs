@@ -3,6 +3,7 @@ using ShelfLayoutManager.Core.Application.Lanes;
 using ShelfLayoutManager.Core.Application.Rows;
 using ShelfLayoutManager.Core.Application.Shelfs;
 using ShelfLayoutManager.Core.Application.Skus;
+using ShelfLayoutManager.Core.Domain;
 using ShelfLayoutManager.Core.Domain.Cabinets;
 using ShelfLayoutManager.Core.Domain.Lanes;
 using ShelfLayoutManager.Core.Domain.Rows;
@@ -38,6 +39,7 @@ builder.Services.AddScoped<ILaneRepository, LaneRepository>();
 builder.Services.AddScoped<ISkuRepository, SkuRepository>();
 
 builder.Services.AddScoped<IJanCodeValidatorService, JanCodeValidatorService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 
@@ -49,7 +51,6 @@ if (app.Environment.IsDevelopment())
     {
         x.SwaggerEndpoint("/swagger/v1/swagger.json", "Shelf Layout Manager V1");
         x.DocumentTitle = "Shelf Layout Manager";
-        
     });
 }
 

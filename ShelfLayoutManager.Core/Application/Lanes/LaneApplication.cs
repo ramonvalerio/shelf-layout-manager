@@ -1,14 +1,17 @@
-﻿using ShelfLayoutManager.Core.Domain.Lanes;
+﻿using ShelfLayoutManager.Core.Domain;
+using ShelfLayoutManager.Core.Domain.Lanes;
 
 namespace ShelfLayoutManager.Core.Application.Lanes
 {
     public class LaneApplication : ILaneApplication
     {
         private readonly ILaneRepository _laneRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public LaneApplication(ILaneRepository laneRepository)
+        public LaneApplication(ILaneRepository laneRepository, IUnitOfWork unitOfWork)
         {
             _laneRepository = laneRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<List<Lane>> GetLanesByJanCode(string janCode)
@@ -54,26 +57,38 @@ namespace ShelfLayoutManager.Core.Application.Lanes
 
         public async Task MoveDrink(MoveDrinkCommand command)
         {
-            var fromLane = await _laneRepository.GetByNumberFromCabinetRow(
-                    command.FromCabinetNumber, command.FromRowNumber, command.FromLaneNumber);
+            await _unitOfWork.BeginTransactionAsync();
 
-            var toLane = await _laneRepository.GetByNumberFromCabinetRow(
-                command.ToCabinetNumber, command.ToRowNumber, command.ToLaneNumber);
+            try
+            {
+                var fromLane = await _laneRepository.GetByNumberFromCabinetRow(
+                                command.FromCabinetNumber, command.FromRowNumber, command.FromLaneNumber);
 
-            if (fromLane == null)
-                throw new InvalidOperationException("Origem Lane not found");
+                var toLane = await _laneRepository.GetByNumberFromCabinetRow(
+                    command.ToCabinetNumber, command.ToRowNumber, command.ToLaneNumber);
 
-            if (toLane == null)
-                throw new InvalidOperationException("Target destiny Lane not found");
+                if (fromLane == null)
+                    throw new InvalidOperationException("Origem Lane not found");
 
-            if (fromLane.Quantity < command.Quantity)
-                throw new InvalidOperationException("Insufficient quantity in the origin lane");
+                if (toLane == null)
+                    throw new InvalidOperationException("Target destiny Lane not found");
 
-            fromLane.Quantity -= command.Quantity;
-            toLane.Quantity += command.Quantity;
+                if (fromLane.Quantity < command.Quantity)
+                    throw new InvalidOperationException("Insufficient quantity in the origin lane");
 
-            await _laneRepository.UpdateFromCabinetRow(fromLane.RowCabinetNumber, fromLane.RowNumber, fromLane.Number, fromLane);
-            await _laneRepository.UpdateFromCabinetRow(toLane.RowCabinetNumber, toLane.RowNumber, toLane.Number, toLane);
+                fromLane.Quantity -= command.Quantity;
+                toLane.Quantity += command.Quantity;
+
+                await _laneRepository.UpdateFromCabinetRow(fromLane.RowCabinetNumber, fromLane.RowNumber, fromLane.Number, fromLane);
+                await _laneRepository.UpdateFromCabinetRow(toLane.RowCabinetNumber, toLane.RowNumber, toLane.Number, toLane);
+
+                await _unitOfWork.CommitAsync();
+            }
+            catch
+            {
+                await _unitOfWork.RollbackAsync();
+                throw;
+            }
         }
 
     }
