@@ -25,31 +25,31 @@ namespace ShelfLayoutManager.Api.Controllers
         }
 
         [HttpGet("cabinet/{cabinetNumber}/jancode/{janCode}")]
-        public async Task<ActionResult> Get(int cabinetNumber, string janCode)
+        public async Task<ActionResult<List<Lane>>> Get(int cabinetNumber, string janCode)
         {
             var result = await _application.GetLanesByJanCodeFromCabinet(cabinetNumber, janCode);
             return Ok(result);
         }
 
         [HttpGet("cabinet/{cabinetNumber}/row/{rowNumber}/jancode/{janCode}")]
-        public async Task<ActionResult> Get(int cabinetNumber, int rowNumber, string janCode)
+        public async Task<ActionResult<List<Lane>>> Get(int cabinetNumber, int rowNumber, string janCode)
         {
             var result = await _application.GetLanesByJanCodeFromCabinetRow(cabinetNumber, rowNumber, janCode);
             return Ok(result);
         }
 
         [HttpGet("cabinet/{cabinetNumber}/row/{rowNumber}/number/{number}")]
-        public async Task<ActionResult> Get(int cabinetNumber, int rowNumber, int number)
+        public async Task<ActionResult<Lane>> Get(int cabinetNumber, int rowNumber, int number)
         {
             var result = await _application.GetLaneByNumberFromCabinetRow(cabinetNumber, rowNumber, number);
             return Ok(result);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromBody] CreateLaneCommand command)
+        public async Task<ActionResult<Lane>> Create([FromBody] CreateLaneCommand command)
         {
-            await _application.CreateLaneFromCabinetRow(command);
-            return Ok();
+            var result = await _application.CreateLaneFromCabinetRow(command);
+            return Ok(result);
         }
 
         [HttpPut("cabinet/{cabinetNumber}/row/{rowNumber}")]
