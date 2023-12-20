@@ -4,6 +4,7 @@ using Microsoft.OpenApi.Models;
 using ShelfLayoutManager.Core.Application.Cabinets;
 using ShelfLayoutManager.Core.Application.Lanes;
 using ShelfLayoutManager.Core.Application.Rows;
+using ShelfLayoutManager.Core.Application.Shelves;
 using ShelfLayoutManager.Core.Application.Skus;
 using ShelfLayoutManager.Core.Domain;
 using ShelfLayoutManager.Core.Domain.Cabinets;
@@ -35,6 +36,7 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(connectionString);
 });
 
+builder.Services.AddScoped<IShelfApplication, ShelfApplication>();
 builder.Services.AddScoped<ICabinetApplication, CabinetApplication>();
 builder.Services.AddScoped<IRowApplication, RowApplication>();
 builder.Services.AddScoped<ILaneApplication, LaneApplication>();

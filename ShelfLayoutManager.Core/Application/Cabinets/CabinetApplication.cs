@@ -1,7 +1,5 @@
 ﻿using ShelfLayoutManager.Core.Domain.Cabinets;
 using ShelfLayoutManager.Core.Domain.Exceptions;
-using ShelfLayoutManager.Core.Domain.Lanes;
-using ShelfLayoutManager.Core.Domain.Rows;
 using ShelfLayoutManager.Core.ValueObjects;
 
 namespace ShelfLayoutManager.Core.Application.Cabinets
@@ -9,39 +7,15 @@ namespace ShelfLayoutManager.Core.Application.Cabinets
     public class CabinetApplication : ICabinetApplication
     {
         private readonly ICabinetRepository _cabinetRepository;
-        private readonly IRowRepository _rowRepository;
-        private readonly ILaneRepository _laneRepository;
 
-        public CabinetApplication(ICabinetRepository cabinetRepository,
-            IRowRepository rowRepository,
-            ILaneRepository laneRepository)
+        public CabinetApplication(ICabinetRepository cabinetRepository)
         {
             _cabinetRepository = cabinetRepository;
-            _rowRepository = rowRepository;
-            _laneRepository = laneRepository;
         }
 
         public async Task<List<Cabinet>> GetCabinets()
         {
-            var cabinets = await _cabinetRepository.GetAllAsync();
-
-            foreach (var cabinet in cabinets)
-            {
-                var cabinetRows = await _rowRepository.GetAllFromCabinet(cabinet.Number);
-
-                if (cabinet.Rows is null)
-                    continue;
-
-                cabinet.Rows.AddRange(cabinetRows);
-
-                foreach (var row in cabinet.Rows)
-                {
-                    var rowLanes = await _laneRepository.GetAllByFromCabinetRow(cabinet.Number, row.Number);
-                    row.Lanes.AddRange(rowLanes);
-                }
-            }
-
-            return cabinets;
+            return await _cabinetRepository.GetAllAsync();
         }
 
         public async Task<Cabinet> GetCabinetByNumber(int number)

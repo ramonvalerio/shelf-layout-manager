@@ -5,8 +5,6 @@ using ShelfLayoutManager.Api.Controllers;
 using ShelfLayoutManager.Core.Application.Cabinets;
 using ShelfLayoutManager.Core.Domain.Cabinets;
 using ShelfLayoutManager.Core.Domain.Exceptions;
-using ShelfLayoutManager.Core.Domain.Lanes;
-using ShelfLayoutManager.Core.Domain.Rows;
 using ShelfLayoutManager.Core.ValueObjects;
 
 namespace ShelfLayoutManager.Test.Api
@@ -15,21 +13,14 @@ namespace ShelfLayoutManager.Test.Api
     {
         private readonly Mock<ILogger<CabinetController>> _mockLogger;
         private readonly Mock<ICabinetRepository> _mockCabinetRepository;
-        private readonly Mock<IRowRepository> _mockRowRepository;
-        private readonly Mock<ILaneRepository> _mockLaneRepository;
         private readonly CabinetController _controller;
 
         public CabinetControllerTest()
         {
             _mockLogger = new Mock<ILogger<CabinetController>>();
             _mockCabinetRepository = new Mock<ICabinetRepository>();
-            _mockRowRepository = new Mock<IRowRepository>();
-            _mockLaneRepository = new Mock<ILaneRepository>();
 
-            var application = new CabinetApplication(
-                _mockCabinetRepository.Object,
-                _mockRowRepository.Object,
-                _mockLaneRepository.Object);
+            var application = new CabinetApplication(_mockCabinetRepository.Object);
 
             _controller = new CabinetController(_mockLogger.Object, application);
         }
