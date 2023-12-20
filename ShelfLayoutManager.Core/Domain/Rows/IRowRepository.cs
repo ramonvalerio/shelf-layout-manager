@@ -4,7 +4,7 @@
     {
         Task<List<Row>> GetAllFromCabinet(int cabinetNumber);
         Task<Row> GetByNumberFromCabinet(int cabinetNumber, int number);
-        Task CreateFromCabinet(int cabinetNumber, Row row);
+        Task Create(Row row);
         Task UpdateFromCabinet(int cabinetNumber, Row row);
         Task DeleteByNumberFromCabinet(int cabinetNumber, int number);
     }

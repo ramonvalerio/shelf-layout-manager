@@ -25,59 +25,38 @@ namespace ShelfLayoutManager.Api.Controllers
         }
 
         [HttpGet("cabinet/{cabinetNumber}")]
-        public async Task<ActionResult> Get(string cabinetNumber)
+        public async Task<ActionResult> Get(int cabinetNumber)
         {
             var result = await _application.GetRowsByCabinetNumber(cabinetNumber);
             return Ok(result);
         }
 
         [HttpGet("cabinet/{cabinetNumber}/number/{number}")]
-        public async Task<ActionResult> Get(string cabinetNumber, string number)
+        public async Task<ActionResult> Get(int cabinetNumber, int number)
         {
             var result = await _application.GetRowByCabinetNumber(cabinetNumber, number);
             return Ok(result);
         }
 
         [HttpPost("cabinet/{cabinetNumber}")]
-        public async Task<ActionResult> Create(string cabinetNumber, [FromBody] Row row)
+        public async Task<ActionResult> Create(int cabinetNumber, [FromBody] RowCommand command)
         {
-            try
-            {
-                await _application.CreateRow(cabinetNumber, row);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return NotFound(ex);
-            }
+            await _application.CreateRow(cabinetNumber, command);
+            return Ok();
         }
 
         [HttpPut("cabinet/{cabinetNumber}")]
-        public async Task<ActionResult> Update(string cabinetNumber, [FromBody] Row row)
+        public async Task<ActionResult> Update(int cabinetNumber, [FromBody] Row row)
         {
-            try
-            {
-                await _application.UpdateRow(cabinetNumber, row);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return NotFound(ex);
-            }
+            await _application.UpdateRow(cabinetNumber, row);
+            return Ok();
         }
 
         [HttpDelete("cabinet/{cabinetNumber}/number/{number}")]
-        public async Task<ActionResult> Delete(string cabinetNumber, string number)
+        public async Task<ActionResult> Delete(int cabinetNumber, int number)
         {
-            try
-            {
-                await _application.DeleteRow(cabinetNumber, number);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return NotFound(ex);
-            }
+            await _application.DeleteRow(cabinetNumber, number);
+            return Ok();
         }
     }
 }

@@ -25,9 +25,8 @@ namespace ShelfLayoutManager.Infrastructure.Repository
                          .FirstOrDefaultAsync();
         }
 
-        public async Task CreateFromCabinet(int cabinetNumber, Row row)
+        public async Task Create(Row row)
         {
-            row.CabinetNumber = cabinetNumber;
             _context.Rows.Add(row);
             await _context.SaveChangesAsync();
         }

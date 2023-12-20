@@ -36,12 +36,17 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(connectionString);
 });
 
+// Application Services
 builder.Services.AddScoped<IShelfApplication, ShelfApplication>();
 builder.Services.AddScoped<ICabinetApplication, CabinetApplication>();
 builder.Services.AddScoped<IRowApplication, RowApplication>();
 builder.Services.AddScoped<ILaneApplication, LaneApplication>();
 builder.Services.AddScoped<ISkuApplication, SkuApplication>();
 
+// Domain Services
+builder.Services.AddScoped<IRowService, RowService>();
+
+// Repositories
 builder.Services.AddScoped<ICabinetRepository, CabinetRepository>();
 builder.Services.AddScoped<IRowRepository, RowRepository>();
 builder.Services.AddScoped<ILaneRepository, LaneRepository>();
