@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ShelfLayoutManager.Core.Application.Rows;
 using ShelfLayoutManager.Core.Domain.Rows;
 

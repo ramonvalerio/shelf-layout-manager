@@ -34,43 +34,22 @@ namespace ShelfLayoutManager.Api.Controllers
         [HttpPost]
         public async Task<ActionResult> Create([FromBody] Sku sku)
         {
-            try
-            {
-                await _application.CreateSku(sku);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return NotFound(ex);
-            }
+            await _application.CreateSku(sku);
+            return Ok();
         }
 
         [HttpPut("{janCode}")]
         public async Task<ActionResult> Update(string janCode, [FromBody] Sku sku)
         {
-            try
-            {
-                await _application.UpdateSku(janCode, sku);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return NotFound(ex);
-            }
+            await _application.UpdateSku(janCode, sku);
+            return Ok();
         }
 
         [HttpDelete("{janCode}")]
         public async Task<ActionResult> Delete(string janCode)
         {
-            try
-            {
-                await _application.DeleteSku(janCode);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return NotFound(ex);
-            }
+            await _application.DeleteSku(janCode);
+            return Ok();
         }
     }
 }
