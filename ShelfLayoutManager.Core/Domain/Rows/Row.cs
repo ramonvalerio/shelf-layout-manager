@@ -7,6 +7,7 @@ namespace ShelfLayoutManager.Core.Domain.Rows
     public class Row
     {
         public int Number { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public List<Lane> Lanes { get; set; }
         public float PositionZ { get; set; }
         public RowSize Size { get; set; }

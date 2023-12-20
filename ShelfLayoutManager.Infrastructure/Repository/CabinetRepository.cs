@@ -1,4 +1,5 @@
 ﻿using ShelfLayoutManager.Core.Domain.Cabinets;
+using ShelfLayoutManager.Core.Domain.Exceptions;
 using ShelfLayoutManager.Infrastructure.Data;
 using ShelfLayoutManager.Infrastructure.Repository;
 
@@ -19,6 +20,31 @@ namespace ShelfLayoutManager.Core.Repository
             await _context.SaveChangesAsync();
 
             return result.Entity;
+        }
+
+        public async Task<Cabinet> Update(Cabinet updatedCabinet)
+        {
+            var existingCabinet = await _context.Cabinets.FindAsync(updatedCabinet.Number);
+
+            if (existingCabinet == null)
+                throw new BusinessException($"Cabinet {updatedCabinet.Number} not found.");
+
+            existingCabinet.Position = updatedCabinet.Position;
+            existingCabinet.Size = updatedCabinet.Size;
+            await _context.SaveChangesAsync();
+
+            return existingCabinet;
+        }
+
+        public async Task Delete(int number)
+        {
+            var entity = await _context.Cabinets.FindAsync(number);
+
+            if (entity == null)
+                throw new KeyNotFoundException("Cabinet not found.");
+
+            _context.Cabinets.Remove(entity);
+            await _context.SaveChangesAsync();
         }
     }
 }

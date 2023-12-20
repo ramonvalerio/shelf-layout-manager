@@ -40,15 +40,17 @@ namespace ShelfLayoutManager.Api.Controllers
         }
 
         [HttpPut("{number}")]
-        public async Task<ActionResult> Update(int number, [FromBody] Cabinet cabinet)
+        public async Task<ActionResult<Cabinet>> Update(int number, [FromBody] UpdateCabinetCommand command)
         {
-            return NotFound();
+            var result = await _application.UpdateCabinet(number, command);
+            return Ok(result);
         }
 
         [HttpDelete("{number}")]
         public async Task<ActionResult> Delete(int number)
         {
-            return NotFound();
+            await _application.DeleteCabinetByNumber(number);
+            return Ok();
         }
     }
 }

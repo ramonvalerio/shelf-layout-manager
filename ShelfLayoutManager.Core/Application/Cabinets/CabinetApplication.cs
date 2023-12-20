@@ -39,5 +39,27 @@ namespace ShelfLayoutManager.Core.Application.Cabinets
 
             return await _cabinetRepository.Create(newCabinet);
         }
+
+        public async Task<Cabinet> UpdateCabinet(int number, UpdateCabinetCommand command)
+        {
+            if (number < 0)
+                throw new NotFoundException("Invalid Cabinet number.");
+
+            var existentCabinetNumber = await _cabinetRepository.GetByIdAsync(number);
+
+            if (existentCabinetNumber == null)
+                throw new BusinessException($"Cabinet number {number} not exist.");
+
+            var position = new Position { X = command.X, Y = command.Y, Z = command.Z };
+            var size = new Size { Width = command.Width, Height = command.Height, Depth = command.Depth };
+            var updatedCabinet = new Cabinet(number, position, size);
+
+            return await _cabinetRepository.Update(updatedCabinet);
+        }
+
+        public async Task DeleteCabinetByNumber(int number)
+        {
+            await _cabinetRepository.Delete(number);
+        }
     }
 }
