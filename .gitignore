@@ -399,3 +399,4 @@ FodyWeavers.xsd
 
 # Ignorar todos os arquivos de log no diretório 'Logs'
 ShelfLayoutManager.Api/**/Logs/*.log
+/ShelfLayoutManager.Api/DtempLogsinternal-nlog4txt
