@@ -4,6 +4,7 @@ namespace ShelfLayoutManager.Core.Application.Lanes
 {
     public interface ILaneApplication
     {
+        Task<List<Lane>> GetLanes();
         Task<List<Lane>> GetLanesByJanCode(string janCode);
         Task<List<Lane>> GetLanesByJanCodeFromCabinet(int cabinetNumber, string janCode);
         Task<List<Lane>> GetLanesByJanCodeFromCabinetRow(int cabinetNumber, int rowNumber, string janCode);

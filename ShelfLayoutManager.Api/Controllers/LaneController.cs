@@ -17,10 +17,10 @@ namespace ShelfLayoutManager.Api.Controllers
             _application = application;
         }
 
-        [HttpGet("{janCode}")]
-        public async Task<ActionResult<List<Lane>>> Get(string janCode)
+        [HttpGet]
+        public async Task<ActionResult<List<Lane>>> Get()
         {
-            var result = await _application.GetLanesByJanCode(janCode);
+            var result = await _application.GetLanes();
             return Ok(result);
         }
 

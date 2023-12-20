@@ -15,6 +15,11 @@ namespace ShelfLayoutManager.Core.Application.Lanes
             _unitOfWork = unitOfWork;
         }
 
+        public async Task<List<Lane>> GetLanes()
+        {
+            return await _laneRepository.GetAllAsync();
+        }
+
         public async Task<List<Lane>> GetLanesByJanCode(string janCode)
         {
             return await _laneRepository.GetAllByJanCode(janCode);
