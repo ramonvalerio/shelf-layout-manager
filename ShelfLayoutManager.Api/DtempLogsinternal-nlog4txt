@@ -1,0 +1,7 @@
+2023-12-20 14:56:49.3975 Info Loading assembly name: NLog.Web.AspNetCore
+2023-12-20 14:56:49.4444 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.7.1015. Product version: 5.3.7+bacb70630e4a6455c3501986d612d6cf0e4455e8. GlobalAssemblyCache: False
+2023-12-20 14:56:49.5929 Info Registered target NLog.Targets.DatabaseTarget(Name=database)
+2023-12-20 14:56:49.6087 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.7.2287. Product version: 5.2.7+a1ef7cd83b5a6a172142a6850f0ced4e759a4b3b. GlobalAssemblyCache: False
+2023-12-20 14:56:49.6382 Info Validating config: TargetNames=database, ConfigItems=20, FilePath=/app/bin/Debug/net6.0/NLog.config
+2023-12-20 14:56:49.9670 Info Configuration initialized.
+2023-12-20 14:56:50.0286 Info Validating config: TargetNames=database, ConfigItems=20, FilePath=/app/bin/Debug/net6.0/NLog.config
