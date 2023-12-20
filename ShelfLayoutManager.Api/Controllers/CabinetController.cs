@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShelfLayoutManager.Core.Application.Cabinets;
 using ShelfLayoutManager.Core.Domain.Cabinets;
@@ -33,6 +34,7 @@ namespace ShelfLayoutManager.Api.Controllers
 
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Cabinet>> Create()
         {
             var result = await _application.CreateCabinet();

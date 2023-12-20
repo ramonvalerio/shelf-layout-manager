@@ -38,10 +38,9 @@ namespace ShelfLayoutManager.Infrastructure.Data
             builder.Entity<Row>().OwnsOne(x => x.Size);
 
             builder.Entity<Lane>().ToTable("TB_LANE").HasKey(x => new { x.Number, x.RowNumber, x.RowCabinetNumber });
-
             builder.Entity<Sku>().ToTable("TB_SKU").HasKey(x => x.JanCode);
-
             builder.Entity<Log>().ToTable("TB_LOG");
+            builder.Entity<ApplicationUser>().ToTable("TB_USER");
         }
 
         public void CreateDatabaseIfNotExists()

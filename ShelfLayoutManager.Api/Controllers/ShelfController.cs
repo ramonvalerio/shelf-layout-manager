@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using ShelfLayoutManager.Core.Application.Shelves;
-using ShelfLayoutManager.Core.Domain.Cabinets;
 using ShelfLayoutManager.Core.Domain.Shelves;
 
 namespace ShelfLayoutManager.Api.Controllers

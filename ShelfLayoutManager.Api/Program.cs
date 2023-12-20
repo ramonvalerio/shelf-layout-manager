@@ -1,6 +1,11 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using NLog;
+using NLog.Web;
 using ShelfLayoutManager.Core.Application.Cabinets;
 using ShelfLayoutManager.Core.Application.Lanes;
 using ShelfLayoutManager.Core.Application.Rows;
@@ -15,8 +20,10 @@ using ShelfLayoutManager.Core.Domain.Skus;
 using ShelfLayoutManager.Core.Repository;
 using ShelfLayoutManager.Core.Services;
 using ShelfLayoutManager.Infrastructure.Data;
+using ShelfLayoutManager.Infrastructure.Identity;
 using ShelfLayoutManager.Infrastructure.Repository;
 using ShelfLayoutManager.Infrastructure.Services;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +41,35 @@ builder.Services.AddDbContext<DataContext>(options =>
 {
     var connectionString = builder.Configuration.GetSection("ConnectionStrings:DefaultConnection").Value;
     options.UseSqlServer(connectionString);
+});
+
+// Add Logging
+builder.Logging.ClearProviders();
+builder.Host.UseNLog();
+
+// Add Identity Services
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+        .AddEntityFrameworkStores<DataContext>()
+        .AddDefaultTokenProviders();
+
+// Add Authentication Services
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateActor = true,
+        ValidateIssuer = true,
+        ValidateAudience = false,
+        RequireExpirationTime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration.GetSection("Jwt:Issuer").Value,
+        ValidAudience = builder.Configuration.GetSection("Jwt:Audience").Value,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Jwt:Key").Value))
+    };
 });
 
 // Application Services
@@ -54,10 +90,27 @@ builder.Services.AddScoped<IRowRepository, RowRepository>();
 builder.Services.AddScoped<ILaneRepository, LaneRepository>();
 builder.Services.AddScoped<ISkuRepository, SkuRepository>();
 
+// Services
 builder.Services.AddScoped<IJanCodeValidatorService, JanCodeValidatorService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddSingleton<NLog.ILogger>(LogManager.GetLogger("DatabaseLogger"));
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
 
 var app = builder.Build();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 // Configure the HTTP request pipeline.
 // Middleware to handle errors
@@ -74,6 +127,7 @@ else
         x.DocumentTitle = "Shelf Layout Manager";
     });
     app.UseDeveloperExceptionPage();
+    app.UseCors("AllowSpecificOrigin");
 }
 
 app.Map("/error", HandleError);
