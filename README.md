@@ -75,7 +75,7 @@ Key: Authorization / Value: "past your token here"
 Key: Content-Type / Value: application/json
 ```
 >Note: Just an example template to test it!
-Currently, available 3 cabites Number(1, 2, 3).
+Currently, initial available 3 cabinets Number(1, 2, 3).
 
 ### License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details.
