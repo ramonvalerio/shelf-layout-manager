@@ -8,6 +8,6 @@ namespace ShelfLayoutManager.Core.Application.Cabinets
         Task<Cabinet> GetCabinetByNumber(int number);
         Task<Cabinet> CreateCabinet();
         Task<Cabinet> UpdateCabinet(int number, UpdateCabinetCommand command);
-        Task DeleteCabinetByNumber(int number);
+        Task DeleteCabinetByNumber();
     }
 }

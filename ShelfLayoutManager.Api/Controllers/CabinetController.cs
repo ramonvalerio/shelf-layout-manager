@@ -46,10 +46,10 @@ namespace ShelfLayoutManager.Api.Controllers
             return Ok(result);
         }
 
-        [HttpDelete("{number}")]
-        public async Task<ActionResult> Delete(int number)
+        [HttpDelete]
+        public async Task<ActionResult> Delete()
         {
-            await _application.DeleteCabinetByNumber(number);
+            await _application.DeleteCabinetByNumber();
             return Ok();
         }
     }

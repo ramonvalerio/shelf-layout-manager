@@ -17,7 +17,7 @@ namespace ShelfLayoutManager.Core.Application.Cabinets
 
         public async Task<List<Cabinet>> GetCabinets()
         {
-            return await _cabinetRepository.GetAllAsync();
+            return await _cabinetRepository.GetAll();
         }
 
         public async Task<Cabinet> GetCabinetByNumber(int number)
@@ -47,9 +47,9 @@ namespace ShelfLayoutManager.Core.Application.Cabinets
             return await _cabinetRepository.Update(updatedCabinet);
         }
 
-        public async Task DeleteCabinetByNumber(int number)
+        public async Task DeleteCabinetByNumber()
         {
-            await _cabinetRepository.Delete(number);
+            await _cabinetRepository.Delete();
         }
     }
 }

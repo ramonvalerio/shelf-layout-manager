@@ -1,4 +1,5 @@
-﻿using ShelfLayoutManager.Core.Domain.Cabinets;
+﻿using Microsoft.EntityFrameworkCore;
+using ShelfLayoutManager.Core.Domain.Cabinets;
 using ShelfLayoutManager.Core.Domain.Exceptions;
 using ShelfLayoutManager.Infrastructure.Data;
 using ShelfLayoutManager.Infrastructure.Repository;
@@ -12,6 +13,11 @@ namespace ShelfLayoutManager.Core.Repository
         public CabinetRepository(DataContext context) : base(context)
         {
             _context = context;
+        }
+
+        public async Task<List<Cabinet>> GetAll()
+        {
+            return await _context.Cabinets.ToListAsync();
         }
 
         public async Task<Cabinet> Create(Cabinet cabinet)
@@ -36,9 +42,9 @@ namespace ShelfLayoutManager.Core.Repository
             return existingCabinet;
         }
 
-        public async Task Delete(int number)
+        public async Task Delete()
         {
-            var entity = await _context.Cabinets.FindAsync(number);
+            var entity = await _context.Cabinets.LastOrDefaultAsync();
 
             if (entity == null)
                 throw new KeyNotFoundException("Cabinet not found.");
