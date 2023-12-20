@@ -17,6 +17,13 @@ namespace ShelfLayoutManager.Api.Controllers
             _application = application;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<List<Row>>> Get()
+        {
+            var result = await _application.GetRows();
+            return Ok(result);
+        }
+
         [HttpGet("cabinet/{cabinetNumber}")]
         public async Task<ActionResult> Get(string cabinetNumber)
         {

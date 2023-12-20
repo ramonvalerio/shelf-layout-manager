@@ -11,27 +11,32 @@ namespace ShelfLayoutManager.Core.Application.Rows
             _rowRepository = rowRepository;
         }
 
-        public Task<List<Row>> GetRowsByCabinetNumber(string cabinetNumber)
+        public async Task<List<Row>> GetRows()
+        {
+            return await _rowRepository.GetAllAsync();
+        }
+
+        public async Task<List<Row>> GetRowsByCabinetNumber(string cabinetNumber)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Row> GetRowByCabinetNumber(string cabinetNumber, string number)
+        public async Task<Row> GetRowByCabinetNumber(string cabinetNumber, string number)
         {
             throw new NotImplementedException();
         }
 
-        public Task CreateRow(string cabinetNumber, Row row)
+        public async Task CreateRow(string cabinetNumber, Row row)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateRow(string cabinetNumber, Row row)
+        public async Task UpdateRow(string cabinetNumber, Row row)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteRow(string cabinetNumber, string number)
+        public async Task DeleteRow(string cabinetNumber, string number)
         {
             throw new NotImplementedException();
         }

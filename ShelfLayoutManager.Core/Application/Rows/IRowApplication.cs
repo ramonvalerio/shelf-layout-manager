@@ -1,10 +1,10 @@
-﻿
-using ShelfLayoutManager.Core.Domain.Rows;
+﻿using ShelfLayoutManager.Core.Domain.Rows;
 
 namespace ShelfLayoutManager.Core.Application.Rows
 {
     public interface IRowApplication
     {
+        Task<List<Row>> GetRows();
         Task<List<Row>> GetRowsByCabinetNumber(string cabinetNumber);
         Task<Row> GetRowByCabinetNumber(string cabinetNumber, string number);
         Task CreateRow(string cabinetNumber, Row row);
