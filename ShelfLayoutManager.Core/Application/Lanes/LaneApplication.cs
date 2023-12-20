@@ -1,4 +1,5 @@
 ﻿using ShelfLayoutManager.Core.Domain;
+using ShelfLayoutManager.Core.Domain.Exceptions;
 using ShelfLayoutManager.Core.Domain.Lanes;
 
 namespace ShelfLayoutManager.Core.Application.Lanes
@@ -57,39 +58,30 @@ namespace ShelfLayoutManager.Core.Application.Lanes
 
         public async Task MoveDrink(MoveDrinkCommand command)
         {
-            await _unitOfWork.BeginTransactionAsync();
+            using var scope = await _unitOfWork.BeginTransactionAsync();
 
-            try
-            {
-                var fromLane = await _laneRepository.GetByNumberFromCabinetRow(
-                                command.FromCabinetNumber, command.FromRowNumber, command.FromLaneNumber);
+            var fromLane = await _laneRepository.GetByNumberFromCabinetRow(
+                            command.FromCabinetNumber, command.FromRowNumber, command.FromLaneNumber);
 
-                var toLane = await _laneRepository.GetByNumberFromCabinetRow(
-                    command.ToCabinetNumber, command.ToRowNumber, command.ToLaneNumber);
+            var toLane = await _laneRepository.GetByNumberFromCabinetRow(
+                command.ToCabinetNumber, command.ToRowNumber, command.ToLaneNumber);
 
-                if (fromLane == null)
-                    throw new InvalidOperationException("Origem Lane not found");
+            if (fromLane == null)
+                throw new NotFoundException("Origem Lane not found.");
 
-                if (toLane == null)
-                    throw new InvalidOperationException("Target destiny Lane not found");
+            if (toLane == null)
+                throw new NotFoundException("Target destiny Lane not found.");
 
-                if (fromLane.Quantity < command.Quantity)
-                    throw new InvalidOperationException("Insufficient quantity in the origin lane");
+            if (fromLane.Quantity < command.Quantity)
+                throw new BusinessException($"Insufficient quantity in the origin lane. Total available: {fromLane.Quantity}.");
 
-                fromLane.Quantity -= command.Quantity;
-                toLane.Quantity += command.Quantity;
+            fromLane.Quantity -= command.Quantity;
+            toLane.Quantity += command.Quantity;
 
-                await _laneRepository.UpdateFromCabinetRow(fromLane.RowCabinetNumber, fromLane.RowNumber, fromLane.Number, fromLane);
-                await _laneRepository.UpdateFromCabinetRow(toLane.RowCabinetNumber, toLane.RowNumber, toLane.Number, toLane);
+            await _laneRepository.UpdateFromCabinetRow(fromLane.RowCabinetNumber, fromLane.RowNumber, fromLane.Number, fromLane);
+            await _laneRepository.UpdateFromCabinetRow(toLane.RowCabinetNumber, toLane.RowNumber, toLane.Number, toLane);
 
-                await _unitOfWork.CommitAsync();
-            }
-            catch
-            {
-                await _unitOfWork.RollbackAsync();
-                throw;
-            }
+            await scope.CompleteAsync();
         }
-
     }
 }
