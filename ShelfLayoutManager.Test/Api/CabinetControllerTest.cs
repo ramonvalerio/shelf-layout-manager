@@ -4,20 +4,34 @@ using Moq;
 using ShelfLayoutManager.Api.Controllers;
 using ShelfLayoutManager.Core.Application.Cabinets;
 using ShelfLayoutManager.Core.Domain.Cabinets;
+using ShelfLayoutManager.Core.Domain.Exceptions;
+using ShelfLayoutManager.Core.Domain.Lanes;
+using ShelfLayoutManager.Core.Domain.Rows;
+using ShelfLayoutManager.Core.ValueObjects;
 
 namespace ShelfLayoutManager.Test.Api
 {
     public class CabinetControllerTest
     {
         private readonly Mock<ILogger<CabinetController>> _mockLogger;
-        private readonly Mock<ICabinetApplication> _mockApplication;
+        private readonly Mock<ICabinetRepository> _mockCabinetRepository;
+        private readonly Mock<IRowRepository> _mockRowRepository;
+        private readonly Mock<ILaneRepository> _mockLaneRepository;
         private readonly CabinetController _controller;
 
         public CabinetControllerTest()
         {
             _mockLogger = new Mock<ILogger<CabinetController>>();
-            _mockApplication = new Mock<ICabinetApplication>();
-            _controller = new CabinetController(_mockLogger.Object, _mockApplication.Object);
+            _mockCabinetRepository = new Mock<ICabinetRepository>();
+            _mockRowRepository = new Mock<IRowRepository>();
+            _mockLaneRepository = new Mock<ILaneRepository>();
+
+            var application = new CabinetApplication(
+                _mockCabinetRepository.Object,
+                _mockRowRepository.Object,
+                _mockLaneRepository.Object);
+
+            _controller = new CabinetController(_mockLogger.Object, application);
         }
 
         [Fact]
@@ -25,7 +39,7 @@ namespace ShelfLayoutManager.Test.Api
         {
             // Arrange
             var mockCabinets = new List<Cabinet> { new Cabinet(), new Cabinet() };
-            _mockApplication.Setup(app => app.GetCabinets()).ReturnsAsync(mockCabinets);
+            _mockCabinetRepository.Setup(app => app.GetAllAsync()).ReturnsAsync(mockCabinets);
 
             // Act
             var result = await _controller.Get();
@@ -42,7 +56,7 @@ namespace ShelfLayoutManager.Test.Api
             // Arrange
             int cabinetNumber = 1;
             var mockCabinet = new Cabinet { Number = cabinetNumber };
-            _mockApplication.Setup(app => app.GetCabinetByNumber(It.IsAny<int>())).ReturnsAsync(mockCabinet);
+            _mockCabinetRepository.Setup(app => app.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(mockCabinet);
 
             // Act
             var result = await _controller.Get(cabinetNumber);
@@ -53,6 +67,60 @@ namespace ShelfLayoutManager.Test.Api
             Assert.Equal(cabinetNumber, returnValue.Number);
         }
 
-        // Testes adicionais para Create, Update e Delete podem ser estruturados de maneira semelhante
+        [Fact]
+        public async Task CreateCabinetWith_ExistentNumber()
+        {
+            // Arrange
+            var command = new CreateCabinetCommand
+            {
+                Number = 1,
+                X = 4,
+                Y = 5,
+                Z = 6,
+                Width = 7,
+                Height = 8,
+                Depth = 9
+            };
+
+            int cabinetExistentNumber = 3;
+            var mockCabinet = new Cabinet { Number = cabinetExistentNumber };
+            var exceptionMessage = $"Cabinet number {command.Number} already exist.";
+            _mockCabinetRepository.Setup(app => app.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(mockCabinet);
+
+            // Act & Assert
+            var exception = await Assert.ThrowsAsync<BusinessException>(async () => await _controller.Create(command));
+            Assert.Equal(exceptionMessage, exception.Message);
+        }
+
+        [Fact]
+        public async Task CreateCabinet_SuccessfulCreation()
+        {
+            // Arrange
+            var command = new CreateCabinetCommand
+            {
+                Number = 1,
+                X = 4,
+                Y = 5,
+                Z = 6,
+                Width = 7,
+                Height = 8,
+                Depth = 9
+            };
+
+            var position = new Position { X = command.X, Y = command.Y, Z = command.Z };
+            var size = new Size { Width = command.Width, Height = command.Height, Depth = command.Depth };
+            var newCabinet = new Cabinet(command.Number, position, size);
+
+            _mockCabinetRepository.Setup(app => app.GetByIdAsync(It.IsAny<int>())).ReturnsAsync((Cabinet)null);
+            _mockCabinetRepository.Setup(app => app.Create(It.IsAny<Cabinet>())).ReturnsAsync(newCabinet);
+
+            // Act
+            var result = await _controller.Create(command);
+
+            // Assert
+            var actionResult = Assert.IsType<OkObjectResult>(result.Result);
+            var returnValue = Assert.IsType<Cabinet>(actionResult.Value);
+            Assert.Equal(newCabinet, returnValue);   
+        }
     }
 }
