@@ -33,9 +33,9 @@ namespace ShelfLayoutManager.Api.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<Cabinet>> Create([FromBody] CreateCabinetCommand command)
+        public async Task<ActionResult<Cabinet>> Create()
         {
-            var result = await _application.CreateCabinet(command);
+            var result = await _application.CreateCabinet();
             return Ok(result);
         }
 
