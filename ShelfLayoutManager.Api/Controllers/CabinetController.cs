@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using ShelfLayoutManager.Core.Application.Shelfs;
+using ShelfLayoutManager.Core.Application.Cabinets;
 using ShelfLayoutManager.Core.Domain.Cabinets;
 
 namespace ShelfLayoutManager.Api.Controllers
@@ -24,34 +24,19 @@ namespace ShelfLayoutManager.Api.Controllers
             return Ok(result);
         }
 
-        /// <summary>
-        /// Gets the cabinet by its number.
-        /// </summary>
-        /// <param name="number">The number of the cabinet.</param>
-        /// <returns>The cabinet if found; otherwise, NotFound.</returns>
         [HttpGet("{number}")]
         public async Task<ActionResult<Cabinet>> Get(int number)
         {
-            if (number <= 0)
-            {
-                return BadRequest("Number must be positive.");
-            }
-
-            _logger.LogInformation($"Fetching cabinet with number: {number}");
             var result = await _application.GetCabinetByNumber(number);
-            if (result == null)
-            {
-                _logger.LogWarning($"Cabinet with number {number} not found.");
-                return NotFound($"Cabinet with number {number} not found.");
-            }
             return Ok(result);
         }
 
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromBody] Cabinet cabinet)
+        public async Task<ActionResult<Cabinet>> Create([FromBody] CreateCabinetCommand command)
         {
-            return NotFound();
+            var result = await _application.CreateCabinet(command);
+            return Ok(result);
         }
 
         [HttpPut("{number}")]

@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using ShelfLayoutManager.Core.Application.Cabinets;
 using ShelfLayoutManager.Core.Application.Lanes;
 using ShelfLayoutManager.Core.Application.Rows;
-using ShelfLayoutManager.Core.Application.Shelfs;
 using ShelfLayoutManager.Core.Application.Skus;
 using ShelfLayoutManager.Core.Domain;
 using ShelfLayoutManager.Core.Domain.Cabinets;

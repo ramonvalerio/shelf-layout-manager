@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using ShelfLayoutManager.Api.Controllers;
-using ShelfLayoutManager.Core.Application.Shelfs;
+using ShelfLayoutManager.Core.Application.Cabinets;
 using ShelfLayoutManager.Core.Domain.Cabinets;
 
 namespace ShelfLayoutManager.Test.Api
