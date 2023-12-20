@@ -13,7 +13,7 @@ namespace ShelfLayoutManager.Infrastructure.Repository
             _context = context;
         }
 
-        public async Task<List<Lane>> GetAllByFromCabinetRow(int cabinetNumber, int rowNumber)
+        public async Task<List<Lane>> GetAllFromCabinetRow(int cabinetNumber, int rowNumber)
         {
             return await _context.Lanes
                 .Where(x => x.RowCabinetNumber == cabinetNumber && x.RowNumber == rowNumber)
@@ -47,12 +47,12 @@ namespace ShelfLayoutManager.Infrastructure.Repository
                 && x.Number == number);
         }
 
-        public async Task CreateFromCabinetRow(int cabinetNumber, int rowNumber, Lane lane)
+        public async Task<Lane> CreateFromCabinetRow(Lane lane)
         {
-            lane.RowCabinetNumber = cabinetNumber;
-            lane.RowNumber = rowNumber;
-            _context.Lanes.Add(lane);
+            var result = await _context.Lanes.AddAsync(lane);
             await _context.SaveChangesAsync();
+
+            return result.Entity;
         }
 
         public async Task UpdateFromCabinetRow(int cabinetNumber, int rowNumber, int number, Lane lane)

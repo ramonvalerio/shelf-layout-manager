@@ -7,11 +7,13 @@ namespace ShelfLayoutManager.Core.Application.Lanes
     public class LaneApplication : ILaneApplication
     {
         private readonly ILaneRepository _laneRepository;
+        private readonly ILaneService _laneService;
         private readonly IUnitOfWork _unitOfWork;
 
-        public LaneApplication(ILaneRepository laneRepository, IUnitOfWork unitOfWork)
+        public LaneApplication(ILaneService laneService, ILaneRepository laneRepository, IUnitOfWork unitOfWork)
         {
             _laneRepository = laneRepository;
+            _laneService = laneService;
             _unitOfWork = unitOfWork;
         }
 
@@ -40,12 +42,17 @@ namespace ShelfLayoutManager.Core.Application.Lanes
             return await _laneRepository.GetByNumberFromCabinetRow(cabinetNumber, rowNumber, number);
         }
 
-        public async Task CreateLaneFromCabinetRow(int cabinetNumber, int rowNumber, Lane lane)
+        public async Task<Lane> CreateLaneFromCabinetRow(CreateLaneCommand command)
         {
-            lane.RowCabinetNumber = cabinetNumber;
-            lane.RowNumber = rowNumber;
+            var lane = new Lane
+            {
+                RowCabinetNumber = command.CabinetNumber,
+                RowNumber = command.RowNumber,
+                JanCode = command.JanCode,
+                Quantity = command.Quantity
+            };
 
-            await _laneRepository.CreateFromCabinetRow(cabinetNumber, rowNumber, lane);
+            return await _laneService.CreateFromCabinetRow(lane);
         }
 
         public async Task UpdateLaneFromCabinetRow(int cabinetNumber, int rowNumber, int number, Lane lane)

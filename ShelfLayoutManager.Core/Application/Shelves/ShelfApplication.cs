@@ -35,7 +35,7 @@ namespace ShelfLayoutManager.Core.Application.Shelves
 
                 foreach (var row in cabinet.Rows)
                 {
-                    var rowLanes = await _laneRepository.GetAllByFromCabinetRow(cabinet.Number, row.Number);
+                    var rowLanes = await _laneRepository.GetAllFromCabinetRow(cabinet.Number, row.Number);
                     row.Lanes.AddRange(rowLanes);
                 }
             }

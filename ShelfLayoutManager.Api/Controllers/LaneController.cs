@@ -45,10 +45,10 @@ namespace ShelfLayoutManager.Api.Controllers
             return Ok(result);
         }
 
-        [HttpPost("cabinet/{cabinetNumber}/row/{rowNumber}")]
-        public async Task<ActionResult> Create(int cabinetNumber, int rowNumber, [FromBody] Lane lane)
+        [HttpPost]
+        public async Task<ActionResult> Create([FromBody] CreateLaneCommand command)
         {
-            await _application.CreateLaneFromCabinetRow(cabinetNumber, rowNumber, lane);
+            await _application.CreateLaneFromCabinetRow(command);
             return Ok();
         }
 

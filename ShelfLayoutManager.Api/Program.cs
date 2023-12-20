@@ -45,6 +45,7 @@ builder.Services.AddScoped<ISkuApplication, SkuApplication>();
 
 // Domain Services
 builder.Services.AddScoped<IRowService, RowService>();
+builder.Services.AddScoped<ILaneService, LaneService>();
 
 // Repositories
 builder.Services.AddScoped<ICabinetRepository, CabinetRepository>();
